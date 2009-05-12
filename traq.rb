@@ -1,0 +1,11 @@
+require "rubygems"
+require "yaml"
+require "zip/zip"
+require "net/scp"
+require "net/ssh"
+require File.dirname(__FILE__)+"/lib/config.rb"
+require File.dirname(__FILE__)+"/lib/deploy.rb"
+
+traq = Traquitana::Deploy.new
+traq.setup if ARGV[0] =~ /setup/
+traq.run
