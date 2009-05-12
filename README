@@ -3,7 +3,7 @@
 Simple tool for deploy Rails apps
 http://github.com/taq/traquitana
 
-## DESCRIPTION
+## DESCRIPTION:
 
 This project is a collection of scripts I used before met Capistrano and the other tools to do that.
 It send some files from your local Rails app directory to a production remote server, using some
@@ -12,11 +12,11 @@ things faster.
 
 It was made to run on GNU/Linux, but should work on similar systems. 
 
-## INSTALL
+## INSTALL:
 
 gem install traquitana --source=http://gems.github.com
 
-## USE
+## USE:
 
 - Go to your Rails app directory.
 - Run traq setup.
