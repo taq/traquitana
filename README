@@ -24,7 +24,7 @@ gem install traquitana --source=http://gems.github.com
 - There are simple configurations there:
 	- host: where your production server is, for example, myhost.com
 	- user: user name to connect to the server (SSH)
-	- password: user password (SSH)
+	- password: user password (SSH), can be blank if you use connect with no password to the server
 	- directory: where your app is on the server. please use the full path based on where the login occurs! ex: /home/user/myapp/
 	- ignore: it will just send the files that had changed on less than the number of hours configured here
 	- server: the webserver running on the server. ex: passenger
