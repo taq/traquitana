@@ -5,6 +5,7 @@
 :list: 
 - - app/**/*
 - - config/initializers/**/*
+- - config/environments/production.rb
 - - db/migrate/**/*
 - - public/javascripts/**/*
 - - public/stylesheets/**/*

@@ -1,6 +1,7 @@
 echo
 echo Restarting Passenger
 echo --------------------
-rm tmp/restart.txt
+# sometimes passenger needs a "forced" tip to restart - removing the file first
+rm -f tmp/restart.txt
 touch tmp/restart.txt
 echo Ok.
