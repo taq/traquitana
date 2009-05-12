@@ -64,9 +64,11 @@ module Traquitana
 			all_list_zip	= "#{id}.zip"
 
 			# first time running? send database.yml also
-			if Dir.glob("traq/*.list").size<1
+			first_run_file = "traq/.first_run"
+			if Dir.glob(first_run_file).size<1
 				puts "Will send config/database.yml"
 				all_list << "config/database.yml" 
+				FileUtils.touch(first_run_file)
 			end
 
 			File.open(all_list_file,"w") {|file| file << all_list.join("\n")}

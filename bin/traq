@@ -5,6 +5,7 @@ require "yaml"
 require "zip/zip"
 require "net/scp"
 require "net/ssh"
+require "fileutils"
 require File.dirname(__FILE__)+"/../lib/config.rb"
 require File.dirname(__FILE__)+"/../lib/deploy.rb"
 
