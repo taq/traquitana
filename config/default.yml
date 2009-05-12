@@ -3,7 +3,7 @@
 :ignore: 24
 :user: taq
 :list: 
-- - app/*/**
+- - app/**/*
 - - config/initializers/**/*
 - - db/migrate/**/*
 - - public/javascripts/**/*
