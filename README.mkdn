@@ -1,4 +1,4 @@
-== Traquitana ==
+# Traquitana
 
 Simple tool for deploy Rails apps
 http://github.com/taq/traquitana
