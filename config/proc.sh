@@ -1,3 +1,6 @@
+# force the production enviroment
+export RAILS_ENV=production
+
 # move to the correct directory
 cd $1/..
 
@@ -19,7 +22,6 @@ if [ -n "$migrations" ]; then
 	echo
 	echo Running migrations
 	echo ------------------
-	echo $migrations
 	rake db:migrate
 fi
 
