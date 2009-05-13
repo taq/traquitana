@@ -14,7 +14,7 @@ It was made to run on GNU/Linux, but should work on similar systems.
 
 ## INSTALL:
 
-gem install traquitana --source=http://gems.github.com
+gem install taq-traquitana --source=http://gems.github.com
 
 ## USE:
 
