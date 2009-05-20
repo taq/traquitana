@@ -1,6 +1,6 @@
 module Traquitana
 	class Deploy
-		TRAQ_VERSION="0.0.2"
+		TRAQ_VERSION="0.0.4"
 
 		def initialize
 			@config = Traquitana::Config.instance
