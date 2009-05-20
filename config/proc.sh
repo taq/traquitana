@@ -25,5 +25,12 @@ if [ -n "$migrations" ]; then
 	rake db:migrate
 fi
 
+# change file permissions on public dir
+echo 
+echo Changing file permissions on public to 0755
+echo -------------------------------------------
+chmod -R 0755 public/*
+echo Changed.
+
 # restart the server
 traq/server.sh
