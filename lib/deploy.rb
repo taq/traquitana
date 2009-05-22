@@ -1,9 +1,10 @@
 module Traquitana
 	class Deploy
-		TRAQ_VERSION="0.0.4"
+		TRAQ_VERSION="0.0.5"
 
 		def initialize
-			@config = Traquitana::Config.instance
+			@config	= Traquitana::Config.instance
+			@progress = -1
 		end			
 
 		def section_msg(msg)
@@ -24,6 +25,34 @@ module Traquitana
 			puts "Setup completed!"
 			puts "You MUST check the configurations on #{@config.config} before deploying!"
 			exit 1
+		end
+
+		def show_bar(name,sent,total)
+			bt, bp = 20, 5
+			return if sent<=0 
+
+			prop = sent > 0 ? ((100/(total/sent.to_f))/bp).to_i : 0
+			return if prop<=0 
+
+			if prop != @progress
+				bar = Array.new(bt,"-")
+				bar[0...prop] = Array.new(prop,"*")
+				name = File.basename(name).ljust(20)
+				STDOUT.print "Sending #{name} #{(prop*bp).to_s.rjust(3)}% : #{bar.join}\r"
+				STDOUT.flush
+				@progress = prop
+			end				
+			if sent==total
+				puts "\n#{name.strip} sent.\n"
+				@progress = -1
+			end
+		end
+
+		def upload(scp,from,to)
+			puts " "
+			scp.upload!(from,to) do |ch,name,sent,total|
+				show_bar(name,sent,total)
+			end
 		end
 
 		def run
@@ -94,10 +123,10 @@ module Traquitana
 			end
 
 			Net::SCP.start(@config.host,@config.user,options) do |scp|
-				scp.upload!("#{File.dirname(File.expand_path(__FILE__))}/../config/proc.sh","#{@config.directory}/traq/proc.sh")
-				scp.upload!("#{File.dirname(File.expand_path(__FILE__))}/../config/#{@config.server}.sh","#{@config.directory}/traq/server.sh")
-				scp.upload!(all_list_file,"#{@config.directory}/traq/#{all_list_file}")
-				scp.upload!(all_list_zip ,"#{@config.directory}/traq/#{all_list_zip}")
+				upload(scp,"#{File.dirname(File.expand_path(__FILE__))}/../config/proc.sh","#{@config.directory}/traq/proc.sh")
+				upload(scp,"#{File.dirname(File.expand_path(__FILE__))}/../config/#{@config.server}.sh","#{@config.directory}/traq/server.sh")
+				upload(scp,all_list_file,"#{@config.directory}/traq/#{all_list_file}")
+				upload(scp,all_list_zip ,"#{@config.directory}/traq/#{all_list_zip}")
 			end
 			section_msg("Running processes on the remote server")
 
