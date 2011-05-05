@@ -3,14 +3,19 @@
 :ignore: 24
 :user: taq
 :list: 
-- - app/**/*
+- Rakefile
+- config.ru
+- Gemfile
+- - config/application.rb
+- - config/environment.rb
 - - config/initializers/**/*
 - - config/environments/production.rb
+- - config/locales/**/*
+- - config/routes.rb
+- - app/**/*
 - - db/migrate/**/*
 - - public/javascripts/**/*
 - - public/stylesheets/**/*
-- - config/locales/**/*
-- - config/routes.rb
 - - lib/**/*
 - - public/images/**/*
   - public/images/uploads/**/*
