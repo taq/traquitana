@@ -132,7 +132,7 @@ module Traquitana
 
 			Net::SSH.start(@config.host,@config.user,options) do |ssh|
 				result = ""
-				ssh.exec!("#{@config.directory}/traq/proc.sh #{@config.directory}/traq #{all_list_file.split(File.extname(all_list_file).first)}") do |channel, stream, data|
+				ssh.exec!("#{@config.directory}/traq/proc.sh #{@config.directory}/traq #{all_list_file.split(File.extname(all_list_file)).first}") do |channel, stream, data|
 					result << data
 				 end
 				 puts result
