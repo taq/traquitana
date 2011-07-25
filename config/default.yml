@@ -22,3 +22,4 @@
 :password: fill your password here
 :host: localhost
 :server: passenger
+:shell: # bash -l -c 
