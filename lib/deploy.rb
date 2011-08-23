@@ -1,11 +1,10 @@
 module Traquitana
 	class Deploy
-		TRAQ_VERSION="0.0.8"
+		TRAQ_VERSION="0.0.9"
 
 		def initialize
 			@config	= Traquitana::Config.instance
 			@progress = -1
-         @shell = @config.shell ? "#{@config.shell} " : ""
 		end			
 
 		def section_msg(msg)
@@ -64,6 +63,7 @@ module Traquitana
 				exit 1
 			end
 			@config.load
+         @shell = @config.shell ? "#{@config.shell} " : ""
 
 			puts "Running Traquitana version #{TRAQ_VERSION}\n"
 			puts "Connecting to #{@config.host} with #{@config.user}, sending files to #{@config.directory}"
@@ -133,6 +133,7 @@ module Traquitana
 
 			Net::SSH.start(@config.host,@config.user,options) do |ssh|
 				result = ""
+				puts "executing: #{@shell}#{@config.directory}/traq/proc.sh #{@config.directory}/traq #{all_list_file.split(File.extname(all_list_file)).first}"
 				ssh.exec!("#{@shell}#{@config.directory}/traq/proc.sh #{@config.directory}/traq #{all_list_file.split(File.extname(all_list_file)).first}") do |channel, stream, data|
 					result << data
 				 end

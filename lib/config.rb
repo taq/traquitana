@@ -20,8 +20,8 @@ module Traquitana
 			"#{File.dirname(File.expand_path(__FILE__))}/../config/default.yml"
 		end
 
-		def load
-			@configs = YAML.load(File.read(config))
+		def load(other=nil)
+			@configs = YAML.load(File.read(other || config))
 		end
 
 		def method_missing(meth)
