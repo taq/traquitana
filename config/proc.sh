@@ -6,14 +6,14 @@ cd $1/..
 
 # make a copy of the old contents
 echo Making a safe copy of the old contents ...
-zip -q traq/$2.safe.zip `cat traq/$2.list`
+zip -q traq/$2.safe.zip `cat traq/$2.list` &> /dev/null
 echo Stored on traq/$2.safe.zip
 
 # install the new files
 echo
 echo Unzipping the new content
 echo -------------------------
-unzip -o traq/$2.zip
+unzip -o traq/$2.zip &> /dev/null
 
 # run migrations if needed
 migrations=$(grep "^db/migrate" traq/$2.list)

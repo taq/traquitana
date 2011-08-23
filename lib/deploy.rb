@@ -1,6 +1,6 @@
 module Traquitana
 	class Deploy
-		TRAQ_VERSION="0.0.9"
+		TRAQ_VERSION="0.0.10"
 
 		def initialize
 			@config	= Traquitana::Config.instance
@@ -133,8 +133,10 @@ module Traquitana
 
 			Net::SSH.start(@config.host,@config.user,options) do |ssh|
 				result = ""
-				puts "executing: #{@shell}#{@config.directory}/traq/proc.sh #{@config.directory}/traq #{all_list_file.split(File.extname(all_list_file)).first}"
-				ssh.exec!("#{@shell}#{@config.directory}/traq/proc.sh #{@config.directory}/traq #{all_list_file.split(File.extname(all_list_file)).first}") do |channel, stream, data|
+				cmd = "#{@config.directory}/traq/proc.sh #{@config.directory}/traq #{all_list_file.split(File.extname(all_list_file)).first}"
+				cmd = "#{@shell} \"#{cmd}\"" if @shell
+
+				ssh.exec!(cmd) do |channel, stream, data|
 					result << data
 				 end
 				 puts result
