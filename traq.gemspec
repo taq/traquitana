@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name = %q{traquitana}
-  s.version = "0.0.10"
+  s.version = "0.0.11"
  
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eustaquio 'TaQ' Rangel"]
-  s.date = %q{2011-05-05}
+  s.date = %q{2012-08-13}
   s.description = %q{Simple tool for deploy Rails apps}
   s.email = %q{eustaquiorangel@gmail.com}
   s.bindir = "bin"

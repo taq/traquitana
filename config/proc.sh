@@ -22,7 +22,7 @@ if [ -n "$migrations" ]; then
 	echo
 	echo Running migrations
 	echo ------------------
-	rake db:migrate
+	bundle exec rake db:migrate
 fi
 
 # change file permissions on public dir
