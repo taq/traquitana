@@ -31,7 +31,13 @@ fi
 
 # precompile assets if needed
 if [ -d app/assets ]; then
+   if [ "$verbose" == "true" ]; then
+      echo -n "Compiling assets ... "
+   fi   
    bundle exec rake assets:precompile 2> /dev/null
+   if [ "$verbose" == "true" ]; then
+      echo "done."
+   fi   
 fi
 
 # change file permissions on public dir
