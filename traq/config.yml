@@ -1,7 +1,8 @@
 # Default configuration--- 
-directory: /tmp/traq_test
-user: taq
-list: 
+:directory: /tmp/traq_test
+:ignore: 24
+:user: taq
+:list: 
 - Rakefile
 - config.ru
 - Gemfile
@@ -18,7 +19,7 @@ list:
 - - lib/**/*
 - - public/images/**/*
   - public/images/uploads/**/*
-password: fill your password here
-host: localhost
-server: passenger
-shell: bash -l -c 
+:password: fill your password here
+:host: localhost
+:server: passenger
+:shell: bash -l -c 

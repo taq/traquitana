@@ -6,9 +6,32 @@ require "zip/zip"
 require "net/scp"
 require "net/ssh"
 require "fileutils"
-require File.dirname(__FILE__)+"/../lib/config.rb"
-require File.dirname(__FILE__)+"/../lib/deploy.rb"
+require "optparse"
+require File.dirname(File.expand_path(__FILE__))+"/../lib/traquitana.rb"
 
-traq = Traquitana::Deploy.new
-traq.setup if ARGV[0] =~ /setup/
-traq.run
+@options = {:verbose=>false}
+
+opts = OptionParser.new
+opts.banner = "Usage: traq [options] <setup>"
+
+opts.on("-v","--version","Show version") do 
+   puts Traquitana::VERSION
+   exit 0
+end
+
+opts.on("-c","--cleanup","Clean up old files") do 
+   Traquitana::Cleaner.new.run
+   exit 0
+end
+
+opts.on("-V","--verbose","Verbose mode") do 
+   @options[:verbose] = true
+end
+
+opts.parse!
+
+if ARGV[0] =~ /setup/
+   Traquitana::Config.instance.setup
+else   
+   Traquitana::Deployer.new(@options).run
+end   

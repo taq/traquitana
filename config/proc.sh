@@ -4,33 +4,54 @@ export RAILS_ENV=production
 # move to the correct directory
 cd $1/..
 
+# verbose mode
+verbose="$3"
+
 # make a copy of the old contents
-echo Making a safe copy of the old contents ...
+if [ "$verbose" == "true" ]; then
+   echo -n "Making a safety copy of the old contents on traq/$2 ... "
+fi   
 zip -q traq/$2.safe.zip `cat traq/$2.list` &> /dev/null
-echo Stored on traq/$2.safe.zip
+if [ "$verbose" == "true" ]; then
+   echo "done."
+fi   
 
 # install the new files
-echo
-echo Unzipping the new content
-echo -------------------------
+echo -n "Unzipping $2.zip ... "
 unzip -o traq/$2.zip &> /dev/null
+echo "done."
 
 # run migrations if needed
 migrations=$(grep "^db/migrate" traq/$2.list)
-
 if [ -n "$migrations" ]; then
-	echo
-	echo Running migrations
-	echo ------------------
-	bundle exec rake db:migrate
+	echo "Running migrations ... "
+	bundle exec rake db:migrate 2> /dev/null
+   echo "Migrations done."
+fi
+
+# precompile assets if needed
+if [ -d app/assets ]; then
+   bundle exec rake assets:precompile 2> /dev/null
 fi
 
 # change file permissions on public dir
-echo 
-echo Changing file permissions on public to 0755
-echo -------------------------------------------
+if [ "$verbose" == "true" ]; then
+   echo -n "Changing file permissions on public to 0755 ... "
+fi
 chmod -R 0755 public/*
-echo Changed.
+if [ "$verbose" == "true" ]; then
+   echo "done."
+fi
 
-# restart the server
-traq/server.sh
+# restart server
+if [ -x ./traq/server.sh -a -f ./traq/server.sh ]; then
+   ./traq/server.sh
+fi   
+
+# extra configs
+if [ -x ./traq/extra.sh -a -f ./traq/extra.sh ]; then
+   ./traq/extra.sh
+fi
+
+# erase file
+rm traq/$2.zip
