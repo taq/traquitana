@@ -1,3 +1,17 @@
+function msg() {
+   local str="$1"
+   local verbose="$2"
+   local newline="$3"
+   if [ "$verbose" != "true" ]; then
+      return 1
+   fi
+   if [ "$newline" == "true" ]; then
+      echo "$str"
+   else
+      echo -n "$str"
+   fi
+}
+
 # force the production enviroment
 export RAILS_ENV=production
 
@@ -8,60 +22,46 @@ cd $1/..
 verbose="$3"
 
 # make a copy of the old contents
-if [ "$verbose" == "true" ]; then
-   echo -n "Making a safety copy of the old contents on traq/$2 ... "
-fi   
+msg "Making a safety copy of the old contents on traq/$2 ... " "$verbose" "false"
 zip -q traq/$2.safe.zip `cat traq/$2.list` &> /dev/null
-if [ "$verbose" == "true" ]; then
-   echo "done."
-fi   
+msg "done." "$verbose" "true"
 
 # check the current Gemfile checksum
 old_gemfile_md5=$(md5sum Gemfile 2> /dev/null | cut -f1 -d' ')
 
 # install the new files
-echo -n "Unzipping $2.zip ... "
+msg "Unzipping $2.zip ... " "true" "false"
 unzip -o traq/$2.zip &> /dev/null
-echo "done."
+msg "done." "true" "true"
 
 # check the new Gemfile checksum
 new_gemfile_md5=$(md5sum Gemfile 2> /dev/null | cut -f1 -d' ')
 
 # if the current Gemfile is different, run bundle install
 if [ "$old_gemfile_md5" != "$new_gemfile_md5" ]; then
-   if [ "$verbose" == "true" ]; then
-      echo "Running bundle install ..."
-   fi   
+   msg "Running bundle install ..." "$verbose" "true"
    bundle install
 fi
 
 # run migrations if needed
 migrations=$(grep "^db/migrate" traq/$2.list)
 if [ -n "$migrations" ]; then
-	echo "Running migrations ... "
+	msg "Running migrations ... " "true" "true"
 	bundle exec rake db:migrate 2> /dev/null
-   echo "Migrations done."
+   msg "Migrations done." "true" "true"
 fi
 
 # precompile assets if needed
 if [ -d app/assets ]; then
-   if [ "$verbose" == "true" ]; then
-      echo -n "Compiling assets ... "
-   fi   
+   msg "Compiling assets ... " "$verbose" "false"
    bundle exec rake assets:precompile 2> /dev/null
-   if [ "$verbose" == "true" ]; then
-      echo "done."
-   fi   
+   msg "done." "$verbose" "true"
 fi
 
 # change file permissions on public dir
-if [ "$verbose" == "true" ]; then
-   echo -n "Changing file permissions on public to 0755 ... "
-fi
+msg "Changing file permissions on public to 0755 ... " "$verbose" "false"
 chmod -R 0755 public/*
-if [ "$verbose" == "true" ]; then
-   echo "done."
-fi
+msg "done." "$verbose" "true"
 
 # restart server
 if [ -x ./traq/server.sh -a -f ./traq/server.sh ]; then
