@@ -43,24 +43,34 @@ Or install it yourself as:
    - - public/images/**/*
      - public/images/uploads/**/*
 
-	On this example, all below public/images will be send BUT ignoring what is on public/images/uploads. This is a way to
-	make sure you'll not overwrite some production files with your development versions.
+   On this example, all below public/images will be send BUT ignoring what is on
+   public/images/uploads. This is a way to make sure you'll not overwrite some
+   production files with your development versions.
 
-- PLEASE PLEASE PLEASE configure this file. You can create an app on your localhost and 
-make some tests on it 'till you think is safe deal with real apps on production servers.
+- PLEASE PLEASE PLEASE configure this file. You can create an app on your
+  localhost and make some tests on it 'till you think is safe deal with real
+  apps on production servers.
+
 - Run traq (just type traq). 
 	- It will search for changed files
 	- Will create a list with the file names found
 	- Will zíp the files.
 	- Will send the list to the server, together with some control files.
-		- What the control files deal: they are shell scripts that will zip the old files (based on what new files are going),
-		unzip the new files, run migrations if needed and restart the web server. There are two files: one generic to make all
-		sort of things BUT not restarting the web server. The webserver script will be send based on what webserver you need.
-- Now everything should be updated. On the next time you want to update your project, just run traq again.
+   - What the control files are for: they are shell scripts that will zip the
+     old files (based on what new files are going), unzip the new files, run
+     migrations if needed, run bundle install if the Gemfile contents changed
+     and restart the web server. There are two files: one generic to make all
+     sort of things BUT not restarting the web server. The webserver script will
+     be send based on what webserver you need.
 
-* The list and the zip file created with the old files will be used on future versions as a rollback feature.	
+- Now everything should be updated. On the next time you want to update your
+  project, just run traq again.
 
-Use for your risk. I think it's all ok but I don't give you guarantee if it break something.
+* The list and the zip file created with the old files will be used on future
+  versions as a rollback feature.	
+
+Use for your risk. I think it's all ok but I don't give you guarantee if it
+break something.
 
 ## Contributing
 
