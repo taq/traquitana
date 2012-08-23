@@ -16,10 +16,24 @@ if [ "$verbose" == "true" ]; then
    echo "done."
 fi   
 
+# check the current Gemfile checksum
+old_gemfile_md5=$(md5sum Gemfile 2> /dev/null | cut -f1 -d' ')
+
 # install the new files
 echo -n "Unzipping $2.zip ... "
 unzip -o traq/$2.zip &> /dev/null
 echo "done."
+
+# check the new Gemfile checksum
+new_gemfile_md5=$(md5sum Gemfile 2> /dev/null | cut -f1 -d' ')
+
+# if the current Gemfile is different, run bundle install
+if [ "$old_gemfile_md5" != "$new_gemfile_md5" ]; then
+   if [ "$verbose" == "true" ]; then
+      echo "Running bundle install ..."
+   fi   
+   bundle install
+fi
 
 # run migrations if needed
 migrations=$(grep "^db/migrate" traq/$2.list)
