@@ -1,0 +1,24 @@
+# Default configuration# Default configuration--- 
+directory: /tmp/traq_test
+user: taq
+list: 
+- Rakefile
+- config.ru
+- Gemfile
+- - config/application.rb
+- - config/environment.rb
+- - config/initializers/**/*
+- - config/environments/production.rb
+- - config/locales/**/*
+- - config/routes.rb
+- - app/**/*
+- - db/migrate/**/*
+- - public/javascripts/**/*
+- - public/stylesheets/**/*
+- - lib/**/*
+- - public/images/**/*
+  - public/images/uploads/**/*
+password: fill your password here
+host: localhost
+server: passenger
+shell: bash -l -c 

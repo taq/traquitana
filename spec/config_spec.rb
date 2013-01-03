@@ -9,12 +9,24 @@ describe Traquitana::Config do
    end
 
    describe "paths" do
-      it "should have a filename method" do
+      it "should have a filename getter method" do
          @config.must_respond_to(:filename)   
       end
 
-      it "should have a filename called traq.yml" do
+      it "should have a filename called traq.yml if file name is not set" do
          File.basename(@config.filename).must_equal("traq.yml")
+      end
+
+      it "should have a filename setter method" do
+         @config.must_respond_to(:filename=)
+      end
+
+      it "should have a custom filename if filename is set" do
+         old    = @config.filename
+         custom = "config/custom.yml"
+         @config.filename = custom
+         @config.filename.must_equal custom
+         @config.filename = old
       end
 
       it "should have a default file method" do

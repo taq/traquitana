@@ -3,13 +3,11 @@ require "singleton"
 module Traquitana
    class Config
       include Singleton
+      attr_accessor :filename
 
       def initialize
          @configs = {}
-      end
-
-      def filename
-         "config/traq.yml"
+         @filename = "config/traq.yml"
       end
 
       def default

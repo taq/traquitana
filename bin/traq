@@ -28,6 +28,10 @@ opts.on("-V","--verbose","Verbose mode") do
    @options[:verbose] = true
 end
 
+opts.on("-f","--file file","Config file") do |file|
+   @options[:filename] = file
+end
+
 opts.parse!
 
 if ARGV[0] =~ /setup/
