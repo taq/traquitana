@@ -17,8 +17,10 @@ module Traquitana
 				STDERR.puts "Run it and check the configuration before deploying."
 				exit 1
 			end
+
 			@config.load
 
+         @server  = @config.server.to_s.size>0 ? @config.server : "none"
          @shell   = @config.shell ? "#{@config.shell} " : ""
          @network = Traquitana::SSH.new(@config.host,@config.user,@options)
 
@@ -37,7 +39,7 @@ module Traquitana
 
          STDOUT.puts "Sending files ..."
          @network.send_files([["#{File.dirname(File.expand_path(__FILE__))}/../config/proc.sh","#{@config.directory}/traq/proc.sh"],
-                              ["#{File.dirname(File.expand_path(__FILE__))}/../config/#{@config.server}.sh","#{@config.directory}/traq/server.sh"],
+                              ["#{File.dirname(File.expand_path(__FILE__))}/../config/#{@server}.sh","#{@config.directory}/traq/server.sh"],
                               [all_list_file,"#{@config.directory}/traq/#{File.basename(all_list_file)}"],
                               [all_list_zip ,"#{@config.directory}/traq/#{File.basename(all_list_zip)}"]],@updater)
          STDOUT.puts "All files sent."
