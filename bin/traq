@@ -32,6 +32,10 @@ opts.on("-f","--file file","Config file") do |file|
    @options[:filename] = file
 end
 
+opts.on("-t","--target target","Target") do |target|
+   @options[:target] = target
+end
+
 opts.parse!
 
 if ARGV[0] =~ /setup/

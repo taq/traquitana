@@ -5,6 +5,7 @@ module Traquitana
 			@options = @config.password.size>1 ? {:password=>@config.password} : {}
          @verbose = !options.nil? && options[:verbose]
          @config.filename = options[:filename] if options[:filename]
+         @config.target   = options[:target]   if options[:target]
 		end			
 
 		def run

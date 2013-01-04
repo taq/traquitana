@@ -73,4 +73,32 @@ describe Traquitana::Config do
          File.open(@config.filename,"w") {|file| file << contents}
       end
    end
+
+   describe "targets" do
+      it "should have a target readable attribute" do
+         @config.must_respond_to :target
+      end
+
+      it "should have a target writable attribute" do
+         @config.must_respond_to :target=
+      end
+
+      it "should load custom target config" do
+         begin
+            @config.filename = "config/custom.yml"
+            @config.target   = "custom"
+            @config.load
+            @config.directory.must_equal "/tmp/traq_test_custom"
+         ensure
+            reset_config
+         end
+      end
+   end
+
+   private
+   def reset_config
+      @config.filename = "config/traq.yml"
+      @config.target   = nil
+      @config.load
+   end
 end

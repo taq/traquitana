@@ -3,7 +3,7 @@ require "singleton"
 module Traquitana
    class Config
       include Singleton
-      attr_accessor :filename
+      attr_accessor :filename, :target
 
       def initialize
          @configs = {}
@@ -16,6 +16,18 @@ module Traquitana
 
       def load(file=nil)
          @configs = YAML.load(File.read(file || self.filename))
+         if @target
+            if !@configs[@target]
+               STDERR.puts "Target #{@target} not found." 
+               exit(1)
+            end
+            @configs = @configs[@target] 
+            STDOUT.puts "Loaded #{@target} target."
+         end
+         if !@target && @configs["default"]
+            STDOUT.puts "Loading default target ..."
+            @configs = @configs["default"]
+         end
       end
 
       def method_missing(meth)
