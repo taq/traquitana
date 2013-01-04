@@ -51,6 +51,11 @@ Or install it yourself as:
   localhost and make some tests on it 'till you think is safe deal with real
   apps on production servers.
 
+  Also, if you want multiple targets, you can use the names you want, just
+  "default" is reserved on a multiple targets file, to use when you don't
+  specify any tags. Take a look on the custom.yml file provided and use
+  -t or --target <target>.
+
 - Run traq (just type traq). 
 	- It will search for changed files
 	- Will create a list with the file names found
@@ -80,6 +85,7 @@ There are some command line options:
 -v or --version - show current version
 -c or --cleanup - clean old versions backups stored on the remote host
 -v or --verbose - be verbose while running
+-t or --target <target> - specify which target will be loaded on the config file
 
 ## Contributing
 
