@@ -59,9 +59,11 @@ if [ -d app/assets ]; then
 fi
 
 # change file permissions on public dir
-msg "Changing file permissions on public to 0755 ... " "$verbose" "false"
-chmod -R 0755 public/*
-msg "done." "$verbose" "true"
+if [ -d public ]; then
+   msg "Changing file permissions on public to 0755 ... " "$verbose" "false"
+   chmod -R 0755 public/*
+   msg "done." "$verbose" "true"
+fi
 
 # restart server
 if [ -x ./traq/server.sh -a -f ./traq/server.sh ]; then
