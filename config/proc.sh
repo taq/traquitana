@@ -38,9 +38,25 @@ msg "done." "true" "true"
 new_gemfile_md5=$(md5sum Gemfile 2> /dev/null | cut -f1 -d' ')
 
 # if the current Gemfile is different, run bundle install
-if [ "$old_gemfile_md5" != "$new_gemfile_md5" ]; then
-   msg "Running bundle install ..." "$verbose" "true"
-   bundle install
+if [ -f Gemfile -a "$old_gemfile_md5" != "$new_gemfile_md5" ]; then
+
+   if [ -f Gemfile.lock ]; then     # if there is a Gemfile.lock file ... 
+      if [ -w Gemfile.lock ]; then  # ... and it is writable
+         msg "Running bundle install ..." "true" "true"
+         bundle install
+      else
+         msg "Gemfile.lock exists but it is not writable, not running bundle install." "true" "true"
+      fi
+   fi
+
+   if [ ! -f Gemfile.lock ]; then   # if there is not a Gemfile.lock file ...
+     if [ -w . ]; then              # ... and current dir is writable
+         msg "Running bundle install ..." "true" "true"
+         bundle install
+      else
+         msg "Gemfile.lock does not exists but current dir is not writable, not running bundle install" "true" "true"
+      fi
+   fi
 fi
 
 # run migrations if needed
