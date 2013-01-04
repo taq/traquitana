@@ -40,8 +40,8 @@ Or install it yourself as:
 
 	On the list can have two elements by row, like:
 
-   - - public/images/**/*
-     - public/images/uploads/**/*
+      - - public/images/**/*
+        - public/images/uploads/**/*
 
    On this example, all below public/images will be send BUT ignoring what is on
    public/images/uploads. This is a way to make sure you'll not overwrite some
@@ -71,6 +71,15 @@ Or install it yourself as:
 
 Use for your risk. I think it's all ok but I don't give you guarantee if it
 break something.
+
+## Options
+
+There are some command line options:
+
+-f or --file <file> - specify the config file path
+-v or --version - show current version
+-c or --cleanup - clean old versions backups stored on the remote host
+-v or --verbose - be verbose while running
 
 ## Contributing
 
