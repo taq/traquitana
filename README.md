@@ -81,11 +81,11 @@ break something.
 
 There are some command line options:
 
--f or --file <file> - specify the config file path
--v or --version - show current version
--c or --cleanup - clean old versions backups stored on the remote host
--v or --verbose - be verbose while running
--t or --target <target> - specify which target will be loaded on the config file
+* -f or --file <file> - specify the config file path
+* -v or --version - show current version
+* -c or --cleanup - clean old versions backups stored on the remote host
+* -v or --verbose - be verbose while running
+* -t or --target <target> - specify which target will be loaded on the config file
 
 ## Contributing
 
