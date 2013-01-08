@@ -2,7 +2,6 @@ module Traquitana
 	class Deployer
 		def initialize(options=nil)
 			@config	= Traquitana::Config.instance
-			@options = @config.password.size>1 ? {:password=>@config.password} : {}
          @verbose = !options.nil? && options[:verbose]
          @config.filename = options[:filename] if options[:filename]
          @config.target   = options[:target]   if options[:target]
@@ -21,6 +20,7 @@ module Traquitana
 
 			@config.load
 
+			@options = @config.password.size>1 ? {:password=>@config.password} : {}
          @server  = @config.server.to_s.size>0 ? @config.server : "none"
          @shell   = @config.shell ? "#{@config.shell} " : ""
          @network = Traquitana::SSH.new(@config.host,@config.user,@options)
