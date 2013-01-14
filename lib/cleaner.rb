@@ -5,7 +5,8 @@ module Traquitana
       def initialize
          @config  = Traquitana::Config.instance
          @config.load
-         @network = Traquitana::SSH.new(@config.host,@config.user)
+			@options = @config.password.size>1 ? {:password=>@config.password} : {}
+         @network = Traquitana::SSH.new(@config.host,@config.user,@options)
       end
 
       def run
