@@ -1,5 +1,5 @@
 require "tmpdir"
-require "zip/zip"
+require "zip"
 
 module Traquitana
    class Packager
@@ -32,7 +32,7 @@ module Traquitana
 
          # write zip file
          STDOUT.puts "Creating the zip file : #{zip_path}" if @verbose
-         Zip::ZipFile.open(zip_path ,"w") do |zip_file|
+         Zip::File.open(zip_path ,"w") do |zip_file|
             for file in list
                strip = file.sub(regex,"")
                zip_file.add(strip,file)

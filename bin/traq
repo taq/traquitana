@@ -2,7 +2,7 @@
 
 require "rubygems"
 require "yaml"
-require "zip/zip"
+require "zip"
 require "net/scp"
 require "net/ssh"
 require "fileutils"
