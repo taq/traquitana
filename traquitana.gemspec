@@ -18,4 +18,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency("rubyzip", [">= 1.0.0"])
   gem.add_dependency("net-ssh", [">= 0"])
   gem.add_dependency("net-scp", [">= 0"])
+
+  gem.license = "GPL-2"
 end
