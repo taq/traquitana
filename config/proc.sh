@@ -48,18 +48,30 @@ function rubygems_owner() {
    echo $(stat --printf=%U $(gem environment | grep INSTALLATION | cut -f2- -d:))
 }
 
+# 
+# Gems provider
+#
+function gem_provider() {
+   if [ -n "$(which rvm)" ]; then
+      echo "rvm"
+   elif [ -n "$(which gem)" ]; then 
+      echo "rubygems"
+   else
+      echo ""
+   fi
+}
+
 #
 # Find the current gem owner
 # If not using RVM, returns the owner of the gem directory
 #
 function gemdir_owner() {
-   local owner=""
-   if [ -n "$(which rvm)" ]; then
-      owner=$(rvm_owner)
+   local provider=$(gem_provider)
+   if [ -z "${provider}" ]; then
+      echo $(whoami)
    else
-      owner=$(rubygems_owner)
+      echo $(${provider}_owner)
    fi
-   echo ${owner}
 }
 
 #
@@ -167,7 +179,7 @@ newline="true"             # default newline on messages
 logfile="/tmp/traq$$.log"  # log file
 
 # parse command line options
-while getopts "horgksi" OPTION
+while getopts "horgki" OPTION
 do
    case ${OPTION} in
       h)
@@ -188,6 +200,10 @@ do
          ;;
       k)
          echo "Gemfile checksum is: $(gemfile_checksum)"
+         exit 1
+         ;;
+      i)
+         echo "Gems provider is $(gem_provider)"
          exit 1
          ;;
    esac
