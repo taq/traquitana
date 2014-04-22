@@ -1,5 +1,6 @@
 require "net/scp"
 require "net/ssh"
+require "highline/import"
 
 module Traquitana
    class SSH
@@ -9,22 +10,38 @@ module Traquitana
          @host    = host
          @user    = user
          @options = options || {}
-			STDOUT.puts "Connecting to #{@host} using user #{@user}"
+         @options[:verbose] = :error
+         STDOUT.puts "Connecting to #{@host} using user #{@user}"
       end
 
       def execute(cmds,verbose=false)
-         rst = []
-         Net::SSH.start(@host,@user,@options) do |ssh|
-            for cmd in cmds
-               STDOUT.puts "Executing #{cmd} on remote host ..." if verbose
-               rst << ssh.exec!(cmd)
-            end
-         end
-         rst
+        rst = []
+        Net::SSH.start(@host,@user,@options) do |ssh|
+          ssh.open_channel do |channel|
+            channel.request_pty do |ch, success|
+              raise "Can't get PTY" unless success
+              for cmd in cmds
+                STDOUT.puts "Executing #{cmd} on remote host ..." if verbose
+                rst << ch.exec(cmd)
+              end # for
+
+              ch.on_data do |ch, data|
+                data.inspect
+                if data.inspect =~ /sudo/
+                  pwd = ask("Need password to run as root/sudo: ") {|c| c.echo = "*"}
+                  channel.send_data("#{pwd}\n")
+                  sleep 0.1
+                end
+                ch.wait
+              end
+            end # tty
+          end # channel
+        end # ssh start
+        rst
       end
 
       def send_files(col,updater=nil)
-			Net::SCP.start(@host,@user,@options) do |scp|
+        Net::SCP.start(@host,@user,@options) do |scp|
             for files in col
                from, to = *files
                next if from.nil? || to.nil?
