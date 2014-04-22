@@ -136,6 +136,7 @@ function fix_gems() {
    msg "Fixing gems ..." "$verbose" "true"
    local owner=$(gemdir_owner)
    local curdir=$(pwd)
+   # TODO: check if rvm or local gem dir is used
    local conf=$(rvm gemdir | cut -f1-3 -d/)
    msg "Gem dir owner is ${owner}" "$verbose" "true"
 
@@ -145,7 +146,7 @@ function fix_gems() {
       sudo bash -l -c bundle install "${curdir}/Gemfile"
    # install gems on rvm system path or vendor/bundle
    else
-      # if rvm gemdir is the current user dir, install there
+      # if gemdir is the current user dir, install there
       if [ "${conf}" == "/home/${owner}" ]; then
          msg "Performing a local gem install on home dir" "$verbose" "true"
          bundle install
