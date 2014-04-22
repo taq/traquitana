@@ -174,10 +174,9 @@ function permissions() {
 #
 function fix_gems() {
    msg "Fixing gems ..." "$verbose" "true"
+   local basedir=$(gem_dir | cut -f1-3 -d/)
    local owner=$(gemdir_owner)
    local curdir=$(pwd)
-   # TODO: check if rvm or local gem dir is used
-   local conf=$(rvm gemdir | cut -f1-3 -d/)
    msg "Gem dir owner is ${owner}" "$verbose" "true"
 
    # install gems system wide
@@ -187,9 +186,10 @@ function fix_gems() {
    # install gems on rvm system path or vendor/bundle
    else
       # if gemdir is the current user dir, install there
-      if [ "${conf}" == "/home/${owner}" ]; then
+      if [ "${basedir}" == "/home/${owner}" ]; then
          msg "Performing a local gem install on home dir" "$verbose" "true"
          bundle install
+      # if user is not root and gemdir is not the home dir, install on vendor
       else
          msg "Performing a local gem install on vendor/bundle" "$verbose" "true"
          bundle install --path vendor/bundle
