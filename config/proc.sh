@@ -28,24 +28,52 @@ function usage() {
    echo "proc.sh <traq directory> <id> <verbose>"
    echo ""
    echo "-h Show this message"
-   echo "-o Show gem dir owner, detecting if using RVM"
+   echo "-o Show gem dir owner"
    echo "-r Show gem dir owner, asking RVM"
    echo "-g Show gem dir owner, asking Rubygems"
    echo "-k Show Gemfile checksum"
+   echo "-i Show gems provider (Rubygems, RVM, etc)"
+   echo "-d Show gems dir"
+}
+
+#
+# Gem dir
+#
+function gem_dir() {
+   local provider=$(gem_provider)
+   if [ -z "${provider}" ]; then
+      echo ""
+   else
+      echo $(${provider}_gemdir)
+   fi
+}
+
+# 
+# RVM gem dir
+#
+function rvm_gemdir() {
+   echo $(rvm gemdir)
+}
+
+#
+# Rubygems gem dir
+#
+function rubygems_gemdir() {
+   echo $(gem environment | grep INSTALLATION | cut -f2- -d:)
 }
 
 #
 # Return the RVM gems dir owner
 #
 function rvm_owner() {
-   echo $(stat --printf=%U $(rvm gemdir))
+   echo $(stat --printf=%U $(rvm_gemdir))
 }
 
 #
 # Return the gems dir owner
 #
 function rubygems_owner() {
-   echo $(stat --printf=%U $(gem environment | grep INSTALLATION | cut -f2- -d:))
+   echo $(stat --printf=%U $(rubygems_gemdir))
 }
 
 # 
@@ -179,7 +207,7 @@ newline="true"             # default newline on messages
 logfile="/tmp/traq$$.log"  # log file
 
 # parse command line options
-while getopts "horgki" OPTION
+while getopts "horgkid" OPTION
 do
    case ${OPTION} in
       h)
@@ -204,6 +232,14 @@ do
          ;;
       i)
          echo "Gems provider is $(gem_provider)"
+         exit 1
+         ;;
+      d)
+         echo "Gems dir is $(gem_dir)"
+         exit 1
+         ;;
+      *) 
+         usage 
          exit 1
          ;;
    esac
