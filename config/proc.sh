@@ -44,7 +44,7 @@ function rvm_owner() {
 #
 # Return the gems dir owner
 #
-function gem_owner() {
+function rubygems_owner() {
    echo $(stat --printf=%U $(gem environment | grep INSTALLATION | cut -f2- -d:))
 }
 
@@ -57,7 +57,7 @@ function gemdir_owner() {
    if [ -n "$(which rvm)" ]; then
       owner=$(rvm_owner)
    else
-      owner=$(gem_owner)
+      owner=$(rubygems_owner)
    fi
    echo ${owner}
 }
@@ -183,7 +183,7 @@ do
          exit 1
          ;;
       g)
-         echo "Gem dir owner is: $(gem_owner)"
+         echo "Ruby gems dir owner is: $(rubygems_owner)"
          exit 1
          ;;
       k)
