@@ -178,7 +178,6 @@ function fix_gems() {
    local owner=$(gemdir_owner)
    local curdir=$(pwd)
    local curuser=$(whoami)
-   local sudo=$(sudo -v 2>&1)
    msg "Gem dir owner is ${owner}" "$verbose" "true"
 
    # if gemdir owner is root, try to install gems system wide
@@ -189,13 +188,8 @@ function fix_gems() {
          msg "Installing as root" "$verbose" "true"
          bundle install
       else
-         # if can run sudo
-         if [ -n "${sudo}" ]; then
-            msg "Installing with sudo" "$verbose" "true"
-            sudo bash -l -c bundle install "${curdir}/Gemfile"
-         else
-            msg "Can't run bundle install" "$verbose" "true"
-         fi
+         msg "Installing with sudo" "$verbose" "true"
+         sudo bash -l -c bundle install "${curdir}/Gemfile"
       fi
    # install gems on rvm system path or vendor/bundle
    else
