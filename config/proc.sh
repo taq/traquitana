@@ -170,19 +170,33 @@ function permissions() {
 }
 
 #
-# Fix current gems
+# Fix current gems, running bundle
 #
 function fix_gems() {
    msg "Fixing gems ..." "$verbose" "true"
    local basedir=$(gem_dir | cut -f1-3 -d/)
    local owner=$(gemdir_owner)
    local curdir=$(pwd)
+   local curuser=$(whoami)
+   local sudo=$(sudo -v 2>&1)
    msg "Gem dir owner is ${owner}" "$verbose" "true"
 
-   # install gems system wide
+   # if gemdir owner is root, try to install gems system wide
    if [ "${owner}" == "root" ]; then
       msg "Performing a system wide gem install" "$verbose" "true"
-      sudo bash -l -c bundle install "${curdir}/Gemfile"
+      # if current user is root, go on
+      if [ "${curuser}" == "root" ]; then
+         msg "Installing as root" "$verbose" "true"
+         bundle install
+      else
+         # if can run sudo
+         if [ -n "${sudo}" ]; then
+            msg "Installing with sudo" "$verbose" "true"
+            sudo bash -l -c bundle install "${curdir}/Gemfile"
+         else
+            msg "Can't run bundle install" "$verbose" "true"
+         fi
+      fi
    # install gems on rvm system path or vendor/bundle
    else
       # if gemdir is the current user dir, install there
