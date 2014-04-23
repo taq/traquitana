@@ -8,13 +8,13 @@ module Traquitana
     end
 
     def run
-      STDOUT.puts "Running Traquitana version #{VERSION}\n"
+      STDOUT.puts "\e[1mRunning Traquitana version #{VERSION}\e[0m\n\n"
       Traquitana::Migrator.new.run
 
       if !File.exist?(@config.filename)
-        STDERR.puts "No config file (#{@config.filename}) found."	
-        STDERR.puts "Did you run traq setup?"
-        STDERR.puts "Run it and check the configuration before deploying."
+        STDERR.puts "\e[31mNo config file (#{@config.filename}) found."	
+        STDERR.puts "Did you run \e[1mtraq setup\e[0;31m ?"
+        STDERR.puts "Run it and check the configuration before deploying.\e[0m"
         exit 1
       end
 
@@ -30,7 +30,7 @@ module Traquitana
       all_list_file, all_list_zip = @packager.pack
       if !File.exists?(all_list_file) ||
         !File.exists?(all_list_zip)
-        STDERR.puts "Could not create the needed files."
+        STDERR.puts "\e[31mCould not create the needed files.\e[0m"
         exit 2
       end
 
@@ -43,7 +43,7 @@ module Traquitana
                            ["#{File.dirname(File.expand_path(__FILE__))}/../config/#{@server}.sh","#{@config.directory}/traq/server.sh"],
       [all_list_file,"#{@config.directory}/traq/#{File.basename(all_list_file)}"],
       [all_list_zip ,"#{@config.directory}/traq/#{File.basename(all_list_zip)}"]],@updater)
-      STDOUT.puts "All files sent."
+      STDOUT.puts "\e[32mAll files sent.\e[0m\n\n"
 
       @network.execute(["chmod +x #{@config.directory}/traq/proc.sh"],@verbose)
       @network.execute(["chmod +x #{@config.directory}/traq/server.sh"],@verbose)
@@ -57,7 +57,7 @@ module Traquitana
       # clean up
       File.unlink(all_list_file)
       File.unlink(all_list_zip)
-      STDOUT.puts "All done. Have fun.\n"
+      STDOUT.puts "\e[32mAll done. Have fun.\e[0m\n"
     end
   end
 end

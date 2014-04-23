@@ -11,11 +11,12 @@ module Traquitana
          @user    = user
          @options = options || {}
          @options[:verbose] = :error
-         STDOUT.puts "Connecting to #{@host} using user #{@user}"
+         STDOUT.puts "Connecting to \e[1m#{@host}\e[0m using user \e[1m#{@user}\e[0m"
       end
 
       def execute(cmds,verbose=false)
         rst = []
+
         Net::SSH.start(@host,@user,@options) do |ssh|
           ssh.open_channel do |channel|
             channel.request_pty do |ch, success|
@@ -26,11 +27,13 @@ module Traquitana
               end # for
 
               ch.on_data do |ch, data|
-                data.inspect
+                msg = data.inspect.to_s.gsub(/^"/,"").gsub(/"$/,"").gsub(/"\\"/,"\\").gsub("\\r","").gsub("\\n","\n").gsub("\\e","\e")
                 if data.inspect =~ /sudo/
                   pwd = ask("Need password to run as root/sudo: ") {|c| c.echo = "*"}
                   channel.send_data("#{pwd}\n")
                   sleep 0.1
+                else
+                  puts msg if msg.strip.size > 1
                 end
                 ch.wait
               end

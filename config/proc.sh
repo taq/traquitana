@@ -4,19 +4,9 @@
 #
 function msg() {
    local str="$1"
-   local verbose="$2"
-   local newline="$3"
 
    echo "$str" >> $logfile
-   if [ "$verbose" != "true" ]; then
-      return 1
-   fi
-
-   if [ "$newline" == "true" ]; then
-      echo "$str"
-   else
-      echo -n "$str"
-   fi
+   echo "$str"
 }
 
 #
@@ -113,7 +103,7 @@ function gemfile_checksum() {
 # Move to the app directory
 #
 function cd_app_dir() {
-   msg "Moving to ${dir} directory ..." "${verbose}" "${newline}"
+   msg "Moving to ${dir} directory ..."
    cd $1/..
 }
 
@@ -121,18 +111,16 @@ function cd_app_dir() {
 # Make a copy of the old contents
 #
 function safe_copy() {
-   msg "Making a safety copy of the old contents on traq/$1.safe.zip ... " "$verbose" "false"
+   msg "Making a safety copy of the old contents on traq/$1.safe.zip ... "
    zip -q traq/$1.safe.zip `cat traq/$1.list` &> /dev/null
-   msg "done." "$verbose" "true"
 }
 
 #
 # Install the new files
 #
 function install_new_files() {
-   msg "Unzipping $1.zip ... " "true" "false"
+   msg "Unzipping $1.zip ... "
    unzip -o traq/$1.zip &> /dev/null
-   msg "done." "true" "true"
 }
 
 #
@@ -141,9 +129,8 @@ function install_new_files() {
 function migrate() {
    migrations=$(grep "^db/migrate" traq/${config_id}.list)
    if [ -n "$migrations" ]; then
-      msg "Running migrations ... " "true" "true"
+      msg "Running migrations ... "
       bundle exec rake db:migrate 2> /dev/null
-      msg "Migrations done." "true" "true"
    fi
 }
 
@@ -152,9 +139,8 @@ function migrate() {
 #
 function assets() {
    if [ -d app/assets ]; then
-      msg "Compiling assets ... " "$verbose" "false"
+      msg "Compiling assets ... "
       bundle exec rake assets:precompile 2> /dev/null
-      msg "done." "$verbose" "true"
    fi
 }
 
@@ -163,9 +149,8 @@ function assets() {
 #
 function permissions() {
    if [ -d public ]; then
-      msg "Changing file permissions on public to 0755 ... " "$verbose" "false"
+      msg "Changing file permissions on public to 0755 ... "
       chmod -R 0755 public/*
-      msg "done." "$verbose" "true"
    fi
 }
 
@@ -173,33 +158,33 @@ function permissions() {
 # Fix current gems, running bundle
 #
 function fix_gems() {
-   msg "Fixing gems ..." "$verbose" "true"
+   msg "Fixing gems ..."
    local basedir=$(gem_dir | cut -f1-3 -d/)
    local owner=$(gemdir_owner)
    local curdir=$(pwd)
    local curuser=$(whoami)
-   msg "Gem dir owner is ${owner}" "$verbose" "true"
+   msg "Gem dir owner is ${owner}"
 
    # if gemdir owner is root, try to install gems system wide
    if [ "${owner}" == "root" ]; then
-      msg "Performing a system wide gem install" "$verbose" "true"
+      msg "Performing a system wide gem install"
       # if current user is root, go on
       if [ "${curuser}" == "root" ]; then
-         msg "Installing as root" "$verbose" "true"
+         msg "Installing as root"
          bundle install
       else
-         msg "Installing with sudo" "$verbose" "true"
+         msg "Installing with sudo"
          sudo bash -l -c bundle install "${curdir}/Gemfile"
       fi
    # install gems on rvm system path or vendor/bundle
    else
       # if gemdir is the current user dir, install there
       if [ "${basedir}" == "/home/${owner}" ]; then
-         msg "Performing a local gem install on home dir" "$verbose" "true"
+         msg "Performing a local gem install on home dir"
          bundle install
       # if user is not root and gemdir is not the home dir, install on vendor
       else
-         msg "Performing a local gem install on vendor/bundle" "$verbose" "true"
+         msg "Performing a local gem install on vendor/bundle"
          bundle install --path vendor/bundle
       fi
    fi
@@ -253,7 +238,7 @@ do
    esac
 done
 
-msg "Log file is ${logfile}" "${verbose}" "true"
+msg "Log file is ${logfile}"
 
 # move to the correct directory
 dir="${1}"
