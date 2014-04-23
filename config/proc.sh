@@ -123,6 +123,14 @@ function install_new_files() {
    unzip -o traq/$1.zip &> /dev/null
 }
 
+# 
+# Create database if needed
+#
+function createdb() {
+  msg "Creating database if needed ..."
+  bundle exec rake db:create &> /dev/null
+}
+
 #
 # Run migrations if needed
 #
@@ -255,6 +263,7 @@ if [ -f Gemfile -a "$old_gemfile_md5" != "$new_gemfile_md5" ]; then
    fix_gems
 fi
 
+createdb
 migrate
 assets
 permissions
