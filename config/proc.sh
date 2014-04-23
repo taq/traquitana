@@ -6,7 +6,7 @@ function msg() {
    local str="$1"
 
    echo "$str" >> $logfile
-   echo "$str"
+   echo -e "$str"
 }
 
 #
@@ -171,28 +171,28 @@ function fix_gems() {
    local owner=$(gemdir_owner)
    local curdir=$(pwd)
    local curuser=$(whoami)
-   msg "Gem dir owner is ${owner}"
+   msg "Gem dir owner is \e[1m${owner}\e[0m"
 
    # if gemdir owner is root, try to install gems system wide
    if [ "${owner}" == "root" ]; then
-      msg "Performing a system wide gem install"
+      msg "Performing a \e[1msystem wide gem install\e[0m"
       # if current user is root, go on
       if [ "${curuser}" == "root" ]; then
-         msg "Installing as root"
+         msg "Installing as \e[1mroot\e[0m"
          bundle install
       else
-         msg "Installing with sudo"
+         msg "Installing with \e[1msudo\e[0m"
          sudo bash -l -c bundle install "${curdir}/Gemfile"
       fi
    # install gems on rvm system path or vendor/bundle
    else
       # if gemdir is the current user dir, install there
       if [ "${basedir}" == "/home/${owner}" ]; then
-         msg "Performing a local gem install on home dir"
+         msg "Performing a \e[1mlocal gem install on home dir\e[0m"
          bundle install
       # if user is not root and gemdir is not the home dir, install on vendor
       else
-         msg "Performing a local gem install on vendor/bundle"
+         msg "Performing a \e[1mlocal gem install on vendor/bundle\e[0m"
          bundle install --path vendor/bundle
       fi
    fi
