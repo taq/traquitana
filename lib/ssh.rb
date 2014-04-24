@@ -27,13 +27,13 @@ module Traquitana
               end # for
 
               ch.on_data do |ch, data|
-                msg = data.inspect.to_s.gsub(/^"/,"").gsub(/"$/,"").gsub(/"\\"/,"\\").gsub("\\r","").gsub("\\n","\n").gsub("\\e","\e")
+                msg = data.inspect.to_s.gsub(/^"/,"").gsub(/"$/,"").gsub(/"\\"/,"\\").gsub("\\r","").gsub("\\n","\n").gsub("\\e","\e").strip.chomp
                 if data.inspect =~ /sudo/
-                  pwd = ask("Need password to run as root/sudo: ") {|c| c.echo = "*"}
+                  pwd = ask("\nNeed password to run as root/sudo: ") {|c| c.echo = "*"}
                   channel.send_data("#{pwd}\n")
                   sleep 0.1
                 else
-                  puts msg if msg.strip.size > 1
+                  puts msg if msg.size > 1
                 end
                 ch.wait
               end
