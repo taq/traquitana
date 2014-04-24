@@ -11,8 +11,11 @@ list:
 - - config/environments/production.rb
 - - config/locales/**/*
 - - config/routes.rb
+- - config/boot.rb
+- - config/database.yml
 - - app/**/*
 - - db/migrate/**/*
+- - db/seeds.rb
 - - public/javascripts/**/*
 - - public/stylesheets/**/*
 - - lib/**/*
