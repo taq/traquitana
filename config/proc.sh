@@ -198,6 +198,16 @@ function fix_gems() {
    fi
 }
 
+#
+# Make a sanity check to see if all the tools needed are available
+#
+function sanity_check() {
+  if [ -z "$(which unzip)" ]; then
+    msg "\e[31mThere's no \e[1munzip\e[0;31m tool installed on the server. Please install it before proceeding again\e[0m"
+    exit 2
+  fi
+}
+
 # force the production enviroment
 export RAILS_ENV=production
 
@@ -206,6 +216,9 @@ config_id="$2"             # config id
 verbose="$3"               # verbose mode
 newline="true"             # default newline on messages
 logfile="/tmp/traq$$.log"  # log file
+
+# sanity check
+sanity_check
 
 # parse command line options
 while getopts "horgkid" OPTION
