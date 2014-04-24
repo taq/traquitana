@@ -21,7 +21,6 @@ function usage() {
    echo "-o Show gem dir owner"
    echo "-r Show gem dir owner, asking RVM"
    echo "-g Show gem dir owner, asking Rubygems"
-   echo "-k Show Gemfile checksum"
    echo "-i Show gems provider (Rubygems, RVM, etc)"
    echo "-d Show gems dir"
 }
@@ -90,13 +89,6 @@ function gemdir_owner() {
    else
       echo $(${provider}_owner)
    fi
-}
-
-#
-# Gemfile checksum
-#
-function gemfile_checksum() {
-   echo $(md5sum Gemfile 2> /dev/null | cut -f1 -d' ')
 }
 
 #
@@ -173,17 +165,10 @@ function fix_gems() {
    local curuser=$(whoami)
    msg "Gem dir owner is \e[1m${owner}\e[0m"
 
-   # if gemdir owner is root, try to install gems system wide
-   if [ "${owner}" == "root" ]; then
-      msg "Performing a \e[1msystem wide gem install\e[0m"
-      # if current user is root, go on
-      if [ "${curuser}" == "root" ]; then
-         msg "Installing as \e[1mroot\e[0m"
-         bundle install
-      else
-         msg "Installing with \e[1msudo\e[0m"
-         sudo bash -l -c bundle install "${curdir}/Gemfile"
-      fi
+   # if gemdir owner and current user is root, try to install gems system wide
+   if [ "${owner}" == "root" -a "${curuser}" == "root" ]; then
+      msg "Performing a \e[1msystem wide gem install using root\e[0m"
+      bundle install
    # install gems on rvm system path or vendor/bundle
    else
       # if gemdir is the current user dir, install there
@@ -221,7 +206,7 @@ logfile="/tmp/traq$$.log"  # log file
 sanity_check
 
 # parse command line options
-while getopts "horgkid" OPTION
+while getopts "horgid" OPTION
 do
    case ${OPTION} in
       h)
@@ -238,10 +223,6 @@ do
          ;;
       g)
          echo "Ruby gems dir owner is: $(rubygems_owner)"
-         exit 1
-         ;;
-      k)
-         echo "Gemfile checksum is: $(gemfile_checksum)"
          exit 1
          ;;
       i)
@@ -266,16 +247,9 @@ dir="${1}"
 cd_app_dir "${dir}"
 safe_copy "${config_id}"
 
-# check Gemfile checksum
-old_gemfile_md5=$(gemfile_checksum)
+# here is where things happens on the server
 install_new_files "${config_id}"
-new_gemfile_md5=$(gemfile_checksum)
-
-# if the current Gemfile is different, run bundle install
-if [ -f Gemfile -a "$old_gemfile_md5" != "$new_gemfile_md5" ]; then
-   fix_gems
-fi
-
+fix_gems
 createdb
 migrate
 assets
