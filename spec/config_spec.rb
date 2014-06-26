@@ -32,6 +32,11 @@ describe Traquitana::Config do
       it "should have a default file method" do
          @config.must_respond_to(:default)
       end
+
+      it "should have a valid directory" do
+        @config.directory.wont_be_nil
+        (@config.directory.size > 0).must_equal true
+      end
    end
 
    describe "configs" do

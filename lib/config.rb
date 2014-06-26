@@ -8,6 +8,7 @@ module Traquitana
       def initialize
          @configs = {}
          @filename = "config/traq.yml"
+         load
       end
 
       def default
