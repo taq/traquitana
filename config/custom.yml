@@ -17,6 +17,7 @@ default:
    - - public/javascripts/**/*
    - - public/stylesheets/**/*
    - - lib/**/*
+   - - bin/**/*
    - - public/images/**/*
      - public/images/uploads/**/*
    password: fill your password here
@@ -41,6 +42,7 @@ custom:
    - - public/javascripts/**/*
    - - public/stylesheets/**/*
    - - lib/**/*
+   - - bin/**/*
    - - public/images/**/*
      - public/images/uploads/**/*
    password: fill your password here
