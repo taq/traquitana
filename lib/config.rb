@@ -16,7 +16,9 @@ module Traquitana
       end
 
       def load(file=nil)
-         @configs = YAML.load(File.read(file || self.filename))
+         @configs = YAML.load(File.read(file || self.filename)) rescue nil
+         return if !@configs
+
          if @target
             if !@configs[@target]
                STDERR.puts "Target #{@target} not found." 
@@ -36,23 +38,23 @@ module Traquitana
       end
 
       def setup
-			STDOUT.puts "Running setup"
+         STDOUT.puts "Running setup"
          if File.exists?(self.filename)
             STDERR.puts "The configuration file #{self.filename} already exists."
             return false
          end
 
          dir = File.dirname(self.filename)
-			Dir.mkdir(dir) if !File.exist?(dir)
+         Dir.mkdir(dir) if !File.exist?(dir)
 
-			STDOUT.puts "Writing #{self.filename}"
-			File.open(self.filename,"w") do |file|
-				file << "# Default configuration"
-				file << File.read(self.default)
-			end
+         STDOUT.puts "Writing #{self.filename}"
+         File.open(self.filename,"w") do |file|
+           file << "# Default configuration"
+           file << File.read(self.default)
+         end
 
-			STDOUT.puts "Setup completed!"
-			STDOUT.puts "You MUST check the configurations on #{self.filename} before deploying!"
+         STDOUT.puts "Setup completed!"
+         STDOUT.puts "You MUST check the configurations on #{self.filename} before deploying!"
          true
       end
    end
