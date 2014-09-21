@@ -13,6 +13,7 @@ list:
 - - config/routes.rb
 - - config/boot.rb
 - - config/database.yml
+- - config/secrets.yml
 - - app/**/*
 - - db/migrate/**/*
 - - db/seeds.rb
