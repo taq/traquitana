@@ -168,17 +168,17 @@ function fix_gems() {
    # if gemdir owner and current user is root, try to install gems system wide
    if [ "${owner}" == "root" -a "${curuser}" == "root" ]; then
       msg "Performing a \e[1msystem wide gem install using root\e[0m"
-      bundle install
+      bundle install --without development test
    # install gems on rvm system path or vendor/bundle
    else
       # if gemdir is the current user dir, install there
       if [ "${basedir}" == "/home/${owner}" ]; then
          msg "Performing a \e[1mlocal gem install on home dir\e[0m"
-         bundle install
+         bundle install --without development test
       # if user is not root and gemdir is not the home dir, install on vendor
       else
          msg "Performing a \e[1mlocal gem install on vendor/bundle\e[0m"
-         bundle install --path vendor/bundle
+         bundle install --path vendor/bundle --without development test
       fi
    fi
 }
