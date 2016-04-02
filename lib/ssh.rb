@@ -39,6 +39,7 @@ module Traquitana
               end
             end # tty
           end # channel
+          ssh.loop
         end # ssh start
         rst
       end
