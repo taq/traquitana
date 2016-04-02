@@ -6,7 +6,7 @@ module Traquitana
    class SSH
       attr_reader :host, :user, :options
 
-      def initialize(host,user,options=nil)
+      def initialize(host, user, options = nil)
          @host    = host
          @user    = user
          @options = options || {}
@@ -26,16 +26,16 @@ module Traquitana
                 rst << ch.exec(cmd)
               end # for
 
-              ch.on_data do |ch, data|
+              ch.on_data do |chd, data|
                 msg = data.inspect.to_s.gsub(/^"/,"").gsub(/"$/,"").gsub(/"\\"/,"\\").gsub("\\r","").gsub("\\n","\n").gsub("\\e","\e").strip.chomp
                 if data.inspect =~ /sudo/
-                  pwd = ask("\nNeed password to run as root/sudo: ") {|c| c.echo = "*"}
+                  pwd = ask("\nNeed password to run as root/sudo: ") { |c| c.echo = "*" }
                   channel.send_data("#{pwd}\n")
                   sleep 0.1
                 else
                   puts msg if msg.size > 1
                 end
-                ch.wait
+                chd.wait
               end
             end # tty
           end # channel
@@ -45,11 +45,11 @@ module Traquitana
       end
 
       def send_files(col,updater=nil)
-        Net::SCP.start(@host,@user,@options) do |scp|
+        Net::SCP.start(@host, @user, @options) do |scp|
             for files in col
                from, to = *files
                next if from.nil? || to.nil?
-               scp.upload!(from,to) do |ch,name,sent,total|
+               scp.upload!(from,to) do |ch, name, sent, total|
                   if !updater.nil?
                      updater.name  = to
                      updater.total = total

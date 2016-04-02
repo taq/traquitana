@@ -20,16 +20,16 @@ module Traquitana
 
       @config.load
 
-      @options = @config.password.size>1 ? {:password=>@config.password} : {}
-      @server  = @config.server.to_s.size>0 ? @config.server : "none"
-      @shell   = @config.shell ? "#{@config.shell} " : ""
-      @network = Traquitana::SSH.new(@config.host,@config.user,@options)
+      @options = @config.password.size > 1    ? { password: @config.password } : {}
+      @server  = @config.server.to_s.size > 0 ? @config.server : "none"
+      @shell   = @config.shell                ? "#{@config.shell} " : ""
+      @network = Traquitana::SSH.new(@config.host, @config.user, @options)
 
-      @packager = Traquitana::Packager.new
-      @packager.verbose = @verbose
+      @packager                   = Traquitana::Packager.new
+      @packager.verbose           = @verbose
       all_list_file, all_list_zip = @packager.pack
-      if !File.exists?(all_list_file) ||
-        !File.exists?(all_list_zip)
+
+      if !File.exists?(all_list_file) || !File.exists?(all_list_zip)
         STDERR.puts "\e[31mCould not create the needed files.\e[0m"
         exit 2
       end
@@ -41,8 +41,8 @@ module Traquitana
       STDOUT.puts "Sending files ..."
       @network.send_files([["#{File.dirname(File.expand_path(__FILE__))}/../config/proc.sh","#{@config.directory}/traq/proc.sh"],
                            ["#{File.dirname(File.expand_path(__FILE__))}/../config/#{@server}.sh","#{@config.directory}/traq/server.sh"],
-      [all_list_file,"#{@config.directory}/traq/#{File.basename(all_list_file)}"],
-      [all_list_zip ,"#{@config.directory}/traq/#{File.basename(all_list_zip)}"]],@updater)
+                           [all_list_file,"#{@config.directory}/traq/#{File.basename(all_list_file)}"],
+                           [all_list_zip ,"#{@config.directory}/traq/#{File.basename(all_list_zip)}"]],@updater)
       STDOUT.puts "\e[32mAll files sent.\e[0m\n\n"
 
       @network.execute(["chmod +x #{@config.directory}/traq/proc.sh"],@verbose)
