@@ -51,11 +51,13 @@ module Traquitana
     private
     def check_configs(file)
       @configs = YAML.load(File.read(file || self.filename)) rescue nil
-      raise Exception.new("Configs not found (tried #{file} and #{self.filename}") if !@configs
+      STDERR.puts "Configs not found (tried '#{file}' and '#{self.filename}')" if !@configs
+      @configs
     end
 
     def check_target
-      return if !@target
+      return if !@target || !@configs
+
       if !@configs[@target]
         STDERR.puts "Target #{@target} not found." 
         exit(1)
@@ -66,7 +68,7 @@ module Traquitana
     end
 
     def check_default_target
-      if !@target && @configs["default"]
+      if !@target && @configs && @configs["default"]
         STDOUT.puts "Loading default target ..."
         @configs = @configs["default"]
       end
