@@ -1,3 +1,7 @@
+- [![Downloads](https://img.shields.io/gem/dt/traquitana.svg)](https://rubygems.org/gems/traquitana)
+- [![Version](https://img.shields.io/gem/v/traquitana.svg)](https://rubygems.org/gems/traquitana)
+- [![License](https://img.shields.io/badge/license-GPLV2-brightgreen.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+
 # Traquitana
 
 This project is a collection of scripts I used before met Capistrano and the
