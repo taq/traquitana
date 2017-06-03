@@ -1,4 +1,4 @@
-# Default configuration# Default configuration--- 
+# Default configuration
 default:
    directory: /tmp/traq_test
    user: taq

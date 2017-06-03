@@ -39,7 +39,6 @@ module Traquitana
 
       STDOUT.puts "Writing #{self.filename}"
       File.open(self.filename, "w") do |file|
-        file << "# Default configuration"
         file << File.read(self.default)
       end
 

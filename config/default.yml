@@ -17,6 +17,11 @@ list:
 - - app/**/*
 - - db/migrate/**/*
 - - db/seeds.rb
+- - public/404.html
+- - public/422.html
+- - public/500.html
+- - public/favicon.ico
+- - public/robots.txt
 - - public/javascripts/**/*
 - - public/stylesheets/**/*
 - - lib/**/*
