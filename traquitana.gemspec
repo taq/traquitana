@@ -20,7 +20,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency("net-scp" , [">= 0"])
   gem.add_dependency("highline", [">= 0"])
 
-  gem.license = "GPL-2"
+  gem.license = "GPL-2.0"
 
   gem.signing_key = '/home/taq/.gemcert/gem-private_key.pem'
   gem.cert_chain  = ['gem-public_cert.pem']
