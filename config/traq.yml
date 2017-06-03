@@ -16,6 +16,11 @@ list:
 - - public/javascripts/**/*
 - - public/stylesheets/**/*
 - - lib/**/*
+- - public/404.html
+- - public/422.html
+- - public/500.html
+- - public/favicon.ico
+- - public/robots.txt
 - - public/images/**/*
   - public/images/uploads/**/*
   - public/images/themes/**/*

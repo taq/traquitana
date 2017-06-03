@@ -16,6 +16,11 @@
 - - db/migrate/**/*
 - - public/javascripts/**/*
 - - public/stylesheets/**/*
+- - public/404.html
+- - public/422.html
+- - public/500.html
+- - public/favicon.ico
+- - public/robots.txt
 - - lib/**/*
 - - public/images/**/*
   - public/images/uploads/**/*
