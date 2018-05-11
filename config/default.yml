@@ -14,6 +14,7 @@ list:
 - - config/boot.rb
 - - config/database.yml
 - - config/secrets.yml
+- - config/storage.yml
 - - app/**/*
 - - db/migrate/**/*
 - - db/seeds.rb
