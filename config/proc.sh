@@ -135,6 +135,15 @@ function migrate() {
 }
 
 #
+# Check if the channels dir exists
+#
+function channels() {
+   if [ ! -d app/assets/javascripts/channels ]; then
+      mkdir -p app/assets/javascripts/channels
+   fi
+}
+
+#
 # Precompile assets if needed
 #
 function assets() {
@@ -251,6 +260,7 @@ safe_copy "${config_id}"
 install_new_files "${config_id}"
 fix_gems
 createdb
+channels
 migrate
 assets
 permissions
