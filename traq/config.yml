@@ -12,6 +12,7 @@
 - - config/environments/production.rb
 - - config/locales/**/*
 - - config/routes.rb
+- - config/storage.yml
 - - app/**/*
 - - db/migrate/**/*
 - - public/javascripts/**/*
