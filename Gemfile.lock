@@ -14,7 +14,7 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (4.1.0)
-    rubyzip (1.2.1)
+    rubyzip (2.0.0)
 
 PLATFORMS
   ruby
