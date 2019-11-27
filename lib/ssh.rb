@@ -33,7 +33,7 @@ module Traquitana
                   channel.send_data("#{pwd}\n")
                   sleep 0.1
                 else
-                  puts msg if msg.size > 1
+                  STDOUT.puts msg if msg.size > 1
                 end
                 chd.wait
               end

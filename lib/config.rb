@@ -1,4 +1,4 @@
-require "singleton"
+require 'singleton'
 
 module Traquitana
   class Config
@@ -7,7 +7,7 @@ module Traquitana
 
     def initialize
       @configs  = {}
-      @filename = "config/traq.yml"
+      @filename = 'config/traq.yml'
       @target   = nil
       load
     end
@@ -23,22 +23,22 @@ module Traquitana
     end
 
     def method_missing(meth)
-      @configs[meth.to_s] || ""
+      @configs[meth.to_s] || ''
     end
 
     def setup
-      STDOUT.puts "Running setup"
+      STDOUT.puts 'Running setup'
 
       if File.exists?(self.filename)
         STDERR.puts "The configuration file #{self.filename} already exists."
         return false
       end
 
-      dir = File.dirname(self.filename)
+      dir = File.dirname(filename)
       Dir.mkdir(dir) if !File.exist?(dir)
 
-      STDOUT.puts "Writing #{self.filename}"
-      File.open(self.filename, "w") do |file|
+      STDOUT.puts "Writing #{filename}"
+      File.open(filename, "w") do |file|
         file << File.read(self.default)
       end
 
@@ -48,6 +48,7 @@ module Traquitana
     end
 
     private
+
     def check_configs(file)
       @configs = YAML.load(File.read(file || self.filename)) rescue nil
       STDERR.puts "Configs not found (tried '#{file}' and '#{self.filename}')" if !@configs

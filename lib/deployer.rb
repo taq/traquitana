@@ -1,20 +1,19 @@
 module Traquitana
   class Deployer
-    def initialize(options=nil)
+    def initialize(options = nil)
       @config          = Traquitana::Config.instance
       @verbose         = !options.nil? && options[:verbose]
-      @config.filename = options[:filename] if options[:filename]
+      @config.filename = file(options)
       @config.target   = options[:target]   if options[:target]
     end
 
     def run
       STDOUT.puts "\e[1mRunning Traquitana version #{VERSION}\e[0m\n\n"
-      Traquitana::Migrator.new.run
 
-      if !File.exist?(@config.filename)
-        STDERR.puts "\e[31mNo config file (#{@config.filename}) found."	
-        STDERR.puts "Did you run \e[1mtraq setup\e[0;31m ?"
-        STDERR.puts "Run it and check the configuration before deploying.\e[0m"
+      unless File.exist?(@config.filename)
+        warn "\e[31mNo config file (#{@config.filename}) found."	
+        warn "Did you run \e[1mtraq setup\e[0;31m ?"
+        warn "Run it and check the configuration before deploying.\e[0m"
         exit 1
       end
 
@@ -30,7 +29,7 @@ module Traquitana
       all_list_file, all_list_zip = @packager.pack
 
       if !File.exists?(all_list_file) || !File.exists?(all_list_zip)
-        STDERR.puts "\e[31mCould not create the needed files.\e[0m"
+        warn "\e[31mCould not create the needed files.\e[0m"
         exit 2
       end
 
@@ -58,6 +57,14 @@ module Traquitana
       File.unlink(all_list_file)
       File.unlink(all_list_zip)
       STDOUT.puts "\e[32mAll done. Have fun.\e[0m\n"
+    end
+
+    private
+
+    def file(options)
+      return options[:filename] if options[:filename]
+
+      @config.filename
     end
   end
 end

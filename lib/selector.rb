@@ -1,6 +1,6 @@
 module Traquitana
   class Selector
-    def initialize(dir = "")
+    def initialize(dir = '')
       @dir = dir
     end
 

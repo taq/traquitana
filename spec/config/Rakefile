@@ -1,0 +1,11 @@
+namespace 'db' do
+  task :migrate do
+    STDOUT.puts "running migrations ..."
+  end
+end
+
+namespace 'assets' do
+  task :precompile do
+    STDOUT.puts "precompiling assets ..."
+  end
+end

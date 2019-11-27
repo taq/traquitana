@@ -1,45 +1,45 @@
 #!/usr/bin/env ruby
 
-require "rubygems"
-require "yaml"
-require "zip"
-require "net/scp"
-require "net/ssh"
-require "fileutils"
-require "optparse"
-require File.dirname(File.expand_path(__FILE__))+"/../lib/traquitana.rb"
+require 'rubygems'
+require 'yaml'
+require 'zip'
+require 'net/scp'
+require 'net/ssh'
+require 'fileutils'
+require 'optparse'
+require File.dirname(File.expand_path(__FILE__)) + '/../lib/traquitana.rb'
 
-@options = {:verbose=>false}
+@options = { verbose: false }
 
 opts = OptionParser.new
-opts.banner = "Usage: traq [options] <setup>"
+opts.banner = 'Usage: traq [options] <setup>'
 
-opts.on("-v","--version","Show version") do 
-   puts Traquitana::VERSION
-   exit 0
+opts.on('-v', '--version', 'Show version') do
+  puts Traquitana::VERSION
+  exit 0
 end
 
-opts.on("-c","--cleanup","Clean up old files") do 
-   Traquitana::Cleaner.new.run
-   exit 0
+opts.on('-c', '--cleanup', 'Clean up old files') do
+  Traquitana::Cleaner.new.run
+  exit 0
 end
 
-opts.on("-V","--verbose","Verbose mode") do 
-   @options[:verbose] = true
+opts.on('-V', '--verbose', 'Verbose mode') do
+  @options[:verbose] = true
 end
 
-opts.on("-f","--file file","Config file") do |file|
-   @options[:filename] = file
+opts.on('-f', '--file file', 'Config file') do |file|
+  @options[:filename] = file
 end
 
-opts.on("-t","--target target","Target") do |target|
-   @options[:target] = target
+opts.on('-t', '--target target', 'Target') do |target|
+  @options[:target] = target
 end
 
 opts.parse!
 
 if ARGV[0] =~ /setup/
-   Traquitana::Config.instance.setup
-else   
-   Traquitana::Deployer.new(@options).run
-end   
+  Traquitana::Config.instance.setup
+else
+  Traquitana::Deployer.new(@options).run
+end

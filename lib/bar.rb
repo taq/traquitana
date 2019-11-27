@@ -5,7 +5,7 @@ module Traquitana
 
     def initialize
       reset
-    end      
+    end
 
     def reset
       @name     = nil
