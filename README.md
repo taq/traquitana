@@ -1,16 +1,13 @@
-- [![Downloads](https://img.shields.io/gem/dt/traquitana.svg)](https://rubygems.org/gems/traquitana)
-- [![Version](https://img.shields.io/gem/v/traquitana.svg)](https://rubygems.org/gems/traquitana)
-- [![License](https://img.shields.io/badge/license-GPLV2-brightgreen.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+[![Downloads](https://img.shields.io/gem/dt/traquitana.svg)](https://rubygems.org/gems/traquitana)
+[![Version](https://img.shields.io/gem/v/traquitana.svg)](https://rubygems.org/gems/traquitana)
+[![License](https://img.shields.io/badge/license-GPLV2-brightgreen.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
 
 # Traquitana
 
 This project is a collection of scripts I used before met Capistrano and the
-other tools to do that.
-It send some files from your local Rails app directory to a production remote
-server, using some
-default libs on Ruby like net/ssh and net/scp, and rubyzip to zip all the files
-and try to make
-things faster.
+other tools to do that.  It send some files from your local Rails app directory
+to a production remote server, using some default libs on Ruby like net/ssh and
+net/scp, and rubyzip to zip all the files and try to make things faster.
 
 It was made to run on GNU/Linux, but should work on similar systems. 
 
@@ -18,15 +15,21 @@ It was made to run on GNU/Linux, but should work on similar systems.
 
 Add this line to your application's Gemfile:
 
-    gem 'traquitana'
+```
+gem 'traquitana'
+```
 
 And then execute:
 
-    $ bundle
+```
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install traquitana
+```
+$ gem install traquitana
+```
 
 ## Usage
 
@@ -44,8 +47,10 @@ Or install it yourself as:
 
 	On the list can have two elements by row, like:
 
-      - - public/images/**/*
-        - public/images/uploads/**/*
+```
+- - public/images/**/*
+  - public/images/uploads/**/*
+```
 
    On this example, all below public/images will be send BUT ignoring what is on
    public/images/uploads. This is a way to make sure you'll not overwrite some
@@ -60,7 +65,7 @@ Or install it yourself as:
   specify any tags. Take a look on the custom.yml file provided and use
   -t or --target <target>.
 
-- Run traq (just type traq). 
+- Run traq (just type `traq`). 
 	- It will search for changed files
 	- Will create a list with the file names found
 	- Will zíp the files.
@@ -85,17 +90,27 @@ break something.
 
 There are some command line options:
 
-* -f or --file <file> - specify the config file path
-* -v or --version - show current version
-* -c or --cleanup - clean old versions backups stored on the remote host
-* -v or --verbose - be verbose while running
-* -t or --target <target> - specify which target will be loaded on the config file
+* `-f` or `--file <file>` - specify the config file path
+* `-v` or `--version` - show current version
+* `-c` or `--cleanup` - clean old versions backups stored on the remote host
+* `-v` or `--verbose` - be verbose while running
+* `-t` or `--target <target>` - specify which target will be loaded on the config file
+
+## Drawbacks
+
+As we're sending the local files to the server, if you deleted some file from
+your local repository, **it will not be deleted from your server**, so, you'll
+need to take care of this by yourself. I was inclined to check for the deleted
+files on the file list sent to the server, comparing with the local files there,
+and then delete the files, but I think file deletion could be a little more
+invasive than I'd would like about how this gem works. Maybe on future I can
+change my mind.
 
 ## Contributing
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Test it! Run `$ rake test`. You need `minitest` and `minitest-focus`.
+3. Test it! Run `$ rake test`. You'll need `minitest` and `minitest-focus`.
 4. Commit your changes (`git commit -am 'Added some feature'`)
 5. Push to the branch (`git push origin my-new-feature`)
 6. Create new Pull Request
