@@ -1,5 +1,5 @@
-# Default configuration
-default:
+# This is the default configuration, created by the traq setup command
+default: &default
    directory: /tmp/traq_test
    user: taq
    list: 
@@ -25,28 +25,13 @@ default:
    host: localhost
    server: passenger
    shell: bash -l -c 
+
+# This is a custom configuration to be used wit -t or --target option. 
+# It inherits all the default configs, just changing the directory.
+# It can be used like:
+# $ traq -t custom
+# or
+# $ traq --target custom
 custom:
+   <<: *default
    directory: /tmp/traq_test_custom
-   user: taq
-   list: 
-   - Rakefile
-   - config.ru
-   - Gemfile
-   - - config/application.rb
-   - - config/environment.rb
-   - - config/initializers/**/*
-   - - config/environments/production.rb
-   - - config/locales/**/*
-   - - config/routes.rb
-   - - config/storage.yml
-   - - app/**/*
-   - - db/migrate/**/*
-   - - public/javascripts/**/*
-   - - public/stylesheets/**/*
-   - - lib/**/*
-   - - bin/**/*
-   - - public/images/**/*
-     - public/images/uploads/**/*
-   password: fill your password here
-   host: localhost
-   shell: bash -l -c 
