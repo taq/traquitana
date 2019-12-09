@@ -6,6 +6,8 @@
 - Rakefile
 - config.ru
 - Gemfile
+- package.json
+- postcss.config.js
 - - config/application.rb
 - - config/environment.rb
 - - config/initializers/**/*
@@ -13,6 +15,9 @@
 - - config/locales/**/*
 - - config/routes.rb
 - - config/storage.yml
+- - config/webpacker.yml
+- - config/webpack/environment.js
+- - config/webpack/production.js
 - - app/**/*
 - - db/migrate/**/*
 - - public/javascripts/**/*
