@@ -202,6 +202,47 @@ function sanity_check() {
   fi
 }
 
+function activate_gems() {
+   msg "Activating gems on $(pwd) ..."
+
+   local GEMFILE_VERSION=""
+
+   if [ -z "$GEMFILE_VERSION" ] && [ -f Gemfile ]; then
+      msg "Trying find Ruby version on Gemfile ..."
+      GEMFILE_VERSION=$(grep -e "^ruby" Gemfile | cut -f2 -d' ' | tr -d "'")
+   fi
+
+   if [ -z "$GEMFILE_VERSION" ] && [ -f .ruby-version ]; then
+      msg "Trying find Ruby version on .ruby-version file ..."
+      GEMFILE_VERSION=$(cat .ruby-version)
+   fi
+
+   if [ -z "$GEMFILE_VERSION" ]; then
+      msg "\e[31mCould not determine Ruby version.\e[0m"
+      return
+   fi
+
+   local PROVIDER=$(gem_provider)
+   local RVM_LOCAL=$HOME/.rvm/scripts/rvm
+   local RVM_SYSTEM=/usr/local/rvm/scripts/rvm
+   local RVM_SOURCE=""
+
+   if [ "$PROVIDER" == "rvm" ]; then
+      msg "Activating $GEMFILE_VERSION on RVM ..."
+
+      if [ -f "$RVM_LOCAL" ]; then
+         msg "Activating local RVM ..."
+         RVM_SOURCE="$RVM_LOCAL"
+      else
+         msg "Activating system RVM ..."
+         RVM_SOURCE="$RVM_SYSTEM"
+      fi
+
+      source "$RVM_SOURCE"
+      rvm $GEMFILE_VERSION
+   fi
+}
+
 # force the production enviroment
 export RAILS_ENV=production
 
@@ -258,6 +299,7 @@ safe_copy "${config_id}"
 
 # here is where things happens on the server
 install_new_files "${config_id}"
+activate_gems
 fix_gems
 createdb
 channels
