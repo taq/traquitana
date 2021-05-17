@@ -1,4 +1,5 @@
 # Default configuration--- 
+:version: 0.1.5
 :directory: /tmp/traq_test
 :ignore: 24
 :user: taq
@@ -7,6 +8,7 @@
 - config.ru
 - Gemfile
 - package.json
+- babel.config.js
 - postcss.config.js
 - - config/application.rb
 - - config/environment.rb
