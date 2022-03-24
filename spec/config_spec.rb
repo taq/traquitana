@@ -65,7 +65,7 @@ describe Traquitana::Config do
       expect(@config).must_respond_to :setup
     end
 
-    it 'should do nothing if the configuration file exists' do
+    it 'should do nothing if the configuration file exist' do
       expect(@config.setup).must_equal false
     end
 
@@ -73,11 +73,11 @@ describe Traquitana::Config do
       contents = File.read(@config.filename)
       File.unlink(@config.filename)
 
-      expect(File.exists?(@config.filename)).must_equal false
+      expect(File.exist?(@config.filename)).must_equal false
       expect(@config.setup).must_equal true
-      expect(File.exists?(@config.filename)).must_equal true
+      expect(File.exist?(@config.filename)).must_equal true
 
-      File.open(@config.filename, 'w') do |file| 
+      File.open(@config.filename, 'w') do |file|
         file << contents
       end
     end

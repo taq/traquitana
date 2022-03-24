@@ -1,9 +1,8 @@
 # Default configuration--- 
-:version: 0.1.7
-:directory: /tmp/traq_test
-:ignore: 24
-:user: taq
-:list: 
+version: 0.1.8
+directory: /tmp/traq_test
+user: taq
+list:
 - Rakefile
 - config.ru
 - Gemfile
@@ -16,10 +15,16 @@
 - - config/environments/production.rb
 - - config/locales/**/*
 - - config/routes.rb
+- - config/boot.rb
+- - config/database.yml
+- - config/secrets.yml
 - - config/storage.yml
+- - config/cable.yml
+- - config/importmap.rb
 - - config/webpacker.yml
 - - config/webpack/environment.js
 - - config/webpack/production.js
+- - config/traq/extra.sh
 - - app/**/*
 - - db/migrate/**/*
 - - public/javascripts/**/*
@@ -29,10 +34,12 @@
 - - public/500.html
 - - public/favicon.ico
 - - public/robots.txt
+- - public/manifest.json
 - - lib/**/*
+- - bin/**/*
 - - public/images/**/*
   - public/images/uploads/**/*
-:password: fill your password here
-:host: localhost
-:server: passenger
-:shell: bash -l -c 
+password: fill your password here
+host: localhost
+server: passenger
+shell: bash -l -c

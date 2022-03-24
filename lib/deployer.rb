@@ -11,7 +11,7 @@ module Traquitana
       STDOUT.puts "\e[1mRunning Traquitana version #{VERSION}\e[0m\n\n"
 
       unless File.exist?(@config.filename)
-        warn "\e[31mNo config file (#{@config.filename}) found."	
+        warn "\e[31mNo config file (#{@config.filename}) found."
         warn "Did you run \e[1mtraq setup\e[0;31m ?"
         warn "Run it and check the configuration before deploying.\e[0m"
         exit 1
@@ -28,12 +28,12 @@ module Traquitana
       @packager.verbose           = @verbose
       all_list_file, all_list_zip = @packager.pack
 
-      if !File.exists?(all_list_file) || !File.exists?(all_list_zip)
+      if !File.exist?(all_list_file) || !File.exist?(all_list_zip)
         warn "\e[31mCould not create the needed files.\e[0m"
         exit 2
       end
 
-      # check if the traq destination and config directories exists 
+      # check if the traq destination and config directories exists
       @network.execute(["mkdir -p #{@config.directory}/traq"],@verbose)
       @updater = Traquitana::Bar.new
 

@@ -164,6 +164,17 @@ function permissions() {
 }
 
 #
+# Check if vendor javascript dir exists, if not, created it.
+# When compiling Rails 7.x assets, it will fail if not found
+#
+function vendor_javascript() {
+   msg "Checking vendor javascript diretory ..."
+   if [ ! -d 'vendor/javascript' ]; then
+      mkdir vendor/javascript
+   fi
+}
+
+#
 # Fix current gems, running bundle
 #
 function fix_gems() {
@@ -186,8 +197,17 @@ function fix_gems() {
          bundle install --without development test
       # if user is not root and gemdir is not the home dir, install on vendor
       else
-         msg "Performing a \e[1mlocal gem install on vendor/bundle\e[0m"
-         bundle install --path vendor/bundle --without development test
+         local version=$(bundle -v | grep -o -e "[0-9]\.[0-9]\.[0-9]" | cut -d'.' -f1)
+         msg "Performing a \e[1mlocal gem install on vendor/bundle with bundler version $version\e[0m"
+
+         # bundler version 2 doesnt have anymore those flags below
+         if [ $version -ge 2 ]; then
+            bundle config --local set path 'vendor/bundle'
+            bundle config --local set without 'development test'
+            bundle install
+         else
+            bundle install --path vendor/bundle --without development test
+         fi
       fi
    fi
 }
@@ -304,6 +324,7 @@ fix_gems
 createdb
 channels
 migrate
+vendor_javascript
 assets
 permissions
 

@@ -9,7 +9,7 @@ describe Traquitana::SSH do
     @send    = "#{File.expand_path(File.dirname(__FILE__))}/config/network_test.txt"
     @md5     = Digest::MD5.hexdigest(File.read(@send))
 
-    Dir.mkdir(@config.directory) if !File.exists?(@config.directory)
+    Dir.mkdir(@config.directory) if !File.exist?(@config.directory)
   end
 
   describe 'configs' do
@@ -33,11 +33,11 @@ describe Traquitana::SSH do
 
     it 'should send a file to the remote host' do
       check = "#{@config.directory}/#{File.basename(@send)}"
-      File.unlink(check) if File.exists?(check) 
+      File.unlink(check) if File.exist?(check)
 
       @network.send_files([[@send, "#{@config.directory}/#{File.basename(@send)}"]], Traquitana::Bar.new)
 
-      expect(File.exists?(check)).must_equal true
+      expect(File.exist?(check)).must_equal true
       expect(Digest::MD5.hexdigest(File.read(check))).must_equal @md5
     end
 
@@ -47,10 +47,10 @@ describe Traquitana::SSH do
 
     it 'should execute a command on the remote host' do
       remote_dir = "#{@config.directory}/remote_dir"
-      FileUtils.rmdir(remote_dir) if File.exists?(remote_dir)
+      FileUtils.rmdir(remote_dir) if File.exist?(remote_dir)
 
       @network.execute(["mkdir #{@config.directory}/remote_dir"])
-      expect(File.exists?(remote_dir)).must_equal true
+      expect(File.exist?(remote_dir)).must_equal true
     end
   end
 

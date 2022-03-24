@@ -29,7 +29,7 @@ module Traquitana
     def setup
       STDOUT.puts 'Running setup'
 
-      if File.exists?(self.filename)
+      if File.exist?(self.filename)
         STDERR.puts "The configuration file #{self.filename} already exists."
         return false
       end
