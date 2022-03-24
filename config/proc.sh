@@ -197,7 +197,7 @@ function fix_gems() {
          bundle install --without development test
       # if user is not root and gemdir is not the home dir, install on vendor
       else
-         local version=$(bundle -v | grep -o -e "[0-9]\.[0-9]\.[0-9]" | cut -d'.' -f1)
+         local version=$(bundle -v | grep -o -e "[0-9]\+\.[0-9]\+\.[0-9]\+" | cut -d'.' -f1)
          msg "Performing a \e[1mlocal gem install on vendor/bundle with bundler version $version\e[0m"
 
          # bundler version 2 doesnt have anymore those flags below
