@@ -202,8 +202,7 @@ function fix_gems() {
 
          # bundler version 2 doesnt have anymore those flags below
          if [ $version -ge 2 ]; then
-            bundle config --local set path 'vendor/bundle'
-            bundle config --local set without 'development test'
+            bundle config --local set path 'vendor/bundle' without 'development test'
             bundle install
          else
             bundle install --path vendor/bundle --without development test
