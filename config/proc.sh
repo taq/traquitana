@@ -228,12 +228,12 @@ function activate_gems() {
 
    if [ -z "$GEMFILE_VERSION" ] && [ -f Gemfile ]; then
       msg "Trying find Ruby version on Gemfile ..."
-      GEMFILE_VERSION=$(grep -e "^ruby" Gemfile | cut -f2 -d' ' | tr -d "'")
+      GEMFILE_VERSION=$(grep -e "^ruby" Gemfile | cut -f2 -d' ' | tr -d "'" | tr -d "\"")
    fi
 
    if [ -z "$GEMFILE_VERSION" ] && [ -f .ruby-version ]; then
       msg "Trying find Ruby version on .ruby-version file ..."
-      GEMFILE_VERSION=$(cat .ruby-version)
+      GEMFILE_VERSION=$(cat .ruby-version | cut -f2 -d'-')
    fi
 
    if [ -z "$GEMFILE_VERSION" ]; then
