@@ -50,7 +50,12 @@ module Traquitana
     private
 
     def check_configs(file)
-      @configs = YAML.load(File.read(file || self.filename)) rescue nil
+      begin
+        @configs = YAML.load(File.read(file || self.filename), aliases: true) rescue nil
+      rescue
+        @configs = YAML.load(File.read(file || self.filename)) rescue nil
+      end
+
       STDERR.puts "Configs not found (tried '#{file}' and '#{self.filename}')" if !@configs
       @configs
     end
