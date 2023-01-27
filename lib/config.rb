@@ -51,8 +51,8 @@ module Traquitana
 
     def check_configs(file)
       begin
-        @configs = YAML.load(File.read(file || self.filename), aliases: true) rescue nil
-      rescue
+        @configs = YAML.load(File.read(file || self.filename), aliases: true)
+      rescue => e
         @configs = YAML.load(File.read(file || self.filename)) rescue nil
       end
 
