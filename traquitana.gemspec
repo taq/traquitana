@@ -16,9 +16,11 @@ Gem::Specification.new do |gem|
   gem.version       = Traquitana::VERSION
 
   gem.add_dependency('highline', ['>= 0'])
-  gem.add_dependency('net-scp',  ['>= 0'])
-  gem.add_dependency('net-ssh',  ['>= 0'])
-  gem.add_dependency('rubyzip',  ['>= 2.0.0'])
+  gem.add_dependency('net-scp', ['>= 0'])
+  gem.add_dependency('net-ssh', ['>= 0'])
+  gem.add_dependency('ed25519', ['>= 0'])
+  gem.add_dependency('bcrypt_pbkdf', ['>= 0'])
+  gem.add_dependency('rubyzip', ['>= 2.0.0'])
 
   gem.license = 'GPL-2.0'
 
