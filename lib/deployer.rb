@@ -11,13 +11,15 @@ module Traquitana
       STDOUT.puts "\e[1mRunning Traquitana version #{VERSION}\e[0m\n\n"
 
       unless File.exist?(@config.filename)
-        warn "\e[31mNo config file (#{@config.filename}) found."
+        warn "\e[31mNo config file (#{@config.filename}) found.\e[0m"
         warn "Did you run \e[1mtraq setup\e[0;31m ?"
         warn "Run it and check the configuration before deploying.\e[0m"
         exit 1
       end
 
       @config.load
+
+      check_branches
 
       @options = @config.password.size > 1    ? { password: @config.password } : {}
       @server  = @config.server.to_s.size > 0 ? @config.server : "none"
@@ -65,6 +67,18 @@ module Traquitana
       return options[:filename] if options[:filename]
 
       @config.filename
+    end
+
+    def check_branches
+      return if @config.branches.to_s.size < 1
+
+      current_branch = Git.current_branch
+      STDOUT.puts "Checking if current branch \e[1m#{current_branch}\e[0m is allowed in #{@config.branches}\n"
+
+      return if @config.branches.split(',').map(&:strip).include?(current_branch)
+
+      warn "Branch \e[31m#{current_branch}\e[0m not allowed to deploy!\n\n"
+      exit 1
     end
   end
 end

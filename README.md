@@ -44,6 +44,9 @@ $ gem install traquitana
 	- ignore: it will just send the files that had changed on less than the number of hours configured here
 	- server: the webserver running on the server. ex: passenger
 	- list: the list of file patterns searched to send to the server
+    - branches: optional, will check if your Git current branch is allowed on
+      the branches listed here (comma separated), preventing from deploying from
+      a wrong branch
 
 	On the list can have two elements by row, like:
 
@@ -70,12 +73,12 @@ $ gem install traquitana
 	- Will create a list with the file names found
 	- Will zíp the files.
 	- Will send the list to the server, together with some control files.
-   - What the control files are for: they are shell scripts that will zip the
-     old files (based on what new files are going), unzip the new files, run
-     migrations if needed, run bundle install if the Gemfile contents changed
-     and restart the web server. There are two files: one generic to make all
-     sort of things BUT not restarting the web server. The webserver script will
-     be send based on what webserver you need.
+    - What the control files are for: they are shell scripts that will zip the
+      old files (based on what new files are going), unzip the new files, run
+      migrations if needed, run bundle install if the Gemfile contents changed
+      and restart the web server. There are two files: one generic to make all
+      sort of things BUT not restarting the web server. The webserver script will
+      be send based on what webserver you need.
 
 - Now everything should be updated. On the next time you want to update your
   project, just run traq again.
@@ -86,7 +89,7 @@ $ gem install traquitana
 Use for your risk. I think it's all ok but I don't give you guarantee if it
 break something.
 
-## Options
+## CLI options
 
 There are some command line options:
 
