@@ -38,7 +38,7 @@ module Traquitana
       # write zip file
       STDOUT.puts "Creating the zip file : #{zip_path}" if @verbose
 
-      Zip::File.open(zip_path, 'w') do |zip_file|
+      Zip::File.open(zip_path, create: true) do |zip_file|
         for file in list
           strip = file.sub(regex, '')
           zip_file.add(strip, file)

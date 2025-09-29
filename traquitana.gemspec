@@ -15,14 +15,15 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
   gem.version       = Traquitana::VERSION
 
-  gem.add_dependency('highline', ['>= 0'])
-  gem.add_dependency('net-scp', ['>= 0'])
-  gem.add_dependency('net-ssh', ['>= 0'])
-  gem.add_dependency('ed25519', ['>= 0'])
-  gem.add_dependency('bcrypt_pbkdf', ['>= 0'])
-  gem.add_dependency('rubyzip', ['>= 2.0.0'])
+  gem.required_ruby_version  = '>= 3.0.0'
+  gem.add_dependency('highline', ['~> 3'])
+  gem.add_dependency('net-scp', ['~> 4'])
+  gem.add_dependency('net-ssh', ['~> 7'])
+  gem.add_dependency('ed25519', ['~> 1'])
+  gem.add_dependency('bcrypt_pbkdf', ['~> 1'])
+  gem.add_dependency('rubyzip', ['~> 3.0.0'])
 
-  gem.license = 'GPL-2.0'
+  gem.license = 'GPL-2.0-or-later'
 
   gem.signing_key = '/home/taq/.gemcert/gem-private_key.pem'
   gem.cert_chain  = ['gem-public_cert.pem']
