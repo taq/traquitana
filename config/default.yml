@@ -11,6 +11,7 @@ list:
 - postcss.config.js
 - - config/application.rb
 - - config/environment.rb
+- - config/importmap.rb
 - - config/initializers/**/*
 - - config/environments/production.rb
 - - config/locales/**/*
@@ -20,7 +21,9 @@ list:
 - - config/secrets.yml
 - - config/storage.yml
 - - config/cable.yml
-- - config/importmap.rb
+- - config/cache.yml
+- - config/queue.yml
+- - config/recurring.yml
 - - config/webpacker.yml
 - - config/webpack/environment.js
 - - config/webpack/production.js
